@@ -1,0 +1,104 @@
+%%******************************************************
+%%*                                                    *
+%%* RWTH Aachen University                             *
+%%* Developed by Chair for Operation Systems           *
+%%* (First Version Version Rainer Finocchiaro, 2009)   *
+%%* Adapted for Chair for Hight-Performance Computing  *
+%%* (Second Version Sandra Wienke, 2014)               *
+%%* (Third Version Simon Schwitanski, 2020)            *
+%%*                                                    *
+%%******************************************************
+%%
+%% LaTeX template for seminar thesis
+%% 
+
+
+%% Defined commands
+%%
+%% \title        Title of thesis
+%% \semester     Semester in which the thesis was written
+%% \supervisor   Name of the supervisor
+%% \maketitle    Title page modifications
+%% \keywords     Keywords shown on first page
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{hpcseminar}[2020/03/30 Package for HPC Seminar Theses]
+\RequirePackage{scrlayer-scrpage}
+\RequirePackage{hyperref}
+
+% Header and footer
+\pagestyle{scrheadings}
+\clearpairofpagestyles
+\cfoot{\thepage}
+
+%% New commands
+%%------------------
+\newcommand{\keywordsline}{\small \textbf{\textsf{Keywords:}} \@keywords}
+\newcommand{\@supervisor}{}
+\newcommand{\supervisor}[1]{\renewcommand{\@supervisor}{#1}}
+\newcommand{\@semester}{}
+\newcommand{\semester}[1]{\renewcommand{\@semester}{#1}}
+\newcommand{\@keywords}{}
+\newcommand{\keywords}[1]{\renewcommand{\@keywords}{#1}}
+
+\AtBeginDocument{
+	\hypersetup{bookmarksnumbered=true,
+	            pdfcreator={Adobe Acrobat Distiller},
+	            pdfproducer={LaTex with hyperref}
+	}
+}
+
+% Title page
+\renewcommand{\@maketitle}
+{%
+	\hypersetup{%
+		pdftitle={\@title},
+		pdfsubject={\iflanguage{ngerman}{Seminararbeit}{Seminar Thesis} \@semester},
+		pdfauthor={\@author},
+		pdfkeywords={\@keywords},
+	}%
+	\begin{center}
+	  \vskip 2em%
+		{\titlefont\huge \@title \par}%
+		\vskip 2em%
+		{\large\textbf{\iflanguage{ngerman}{Seminararbeit}{Seminar Thesis}}\par}%
+		{\large \@author\par}%
+		\vskip 2em%
+		{\large \iflanguage{ngerman}
+        {
+        Lehrstuhl für Hochleistungsrechnen, IT Center,\\
+		RWTH Aachen, Seffenter Weg 23,\\
+		52074 Aachen, Germany\\
+		Betreuer: \@supervisor\par%
+        }
+        {
+        Chair for High Performance Computing, IT Center,\\
+		RWTH Aachen, Seffenter Weg 23,\\
+		52074 Aachen, Germany\\
+		Supervisor: \@supervisor\par%
+        }
+        }
+		\vspace*{3em}	%
+	\end{center}%
+}
+
+% Adapted from scrartcl.cls to have small font in abstract
+\renewenvironment{abstract}{%
+  \if@twocolumn\if@abstrt %Zweispaltig
+      \addsec*{\abstractname}
+      \small % abstract in small font
+		\fi
+		\small % abstract in small font
+  \else% single column
+    \if@abstrt
+      \small
+      \begin{center}
+        {\normalfont\sectfont\nobreak\abstractname
+          \vspace{-.5em}\vspace{\z@}}%
+      \end{center}
+    \fi
+    \quotation
+  \fi
+}{%
+  \if@twocolumn\else\endquotation\fi
+}

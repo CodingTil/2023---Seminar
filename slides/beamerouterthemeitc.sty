@@ -1,0 +1,407 @@
+% Theme for LaTeX beamer class, inspired by the official PowerPoint template
+%
+% This theme is UNOFFICIAL and not approved by RWTH Aachen University!
+% (Created by Jonas Hahnfeld <Hahnfeld@itc.rwth-aachen.de>)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                 DIMENSIONS                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Slide
+\setlength{\paperwidth}{\slideWidth}
+\setlength{\paperheight}{\slideHeight}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Text
+% textwidth is a predefined dimension!
+\setlength{\textwidth}{\slideWidth}
+\addtolength{\textwidth}{-2\slideMargin}
+
+\newlength{\textX}
+\setlength{\textX}{\slideMargin}
+
+\newlength{\textBeginY}
+% \setlength{\textBeginY}{4.68cm}
+\setlength{\textBeginY}{4.2cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title Page
+
+\newlength{\titlePageImageHeight}
+\setlength{\titlePageImageHeight}{6.39cm}
+\newlength{\titlePageTitleVSpace}
+\setlength{\titlePageTitleVSpace}{6.91cm}
+\newlength{\titlePageTitleVSpaceBig}
+\setlength{\titlePageTitleVSpaceBig}{13.16cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frame Title
+\newlength{\frameTitleY}
+\setlength{\frameTitleY}{0.56cm}
+
+\newlength{\frameTitleHeight}
+\setlength{\frameTitleHeight}{1.51cm}
+
+\newlength{\frameSubtitleY}
+\setlength{\frameSubtitleY}{3.2cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section Page
+\newlength{\sectionPageSectionY}
+\setlength{\sectionPageSectionY}{7.11cm} % PPT says 6.91cm, but there's something in latex-beamer that offsets this by 0.2cm
+
+\newlength{\sectionPageSectionHeight}
+\setlength{\sectionPageSectionHeight}{1.5cm}
+
+\newlength{\sectionPageLineY}
+\setlength{\sectionPageLineY}{\sectionPageSectionY}
+\addtolength{\sectionPageLineY}{\sectionPageSectionHeight}
+
+\newlength{\sectionPageSubsectionY}
+\setlength{\sectionPageSubsectionY}{8.88cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lines
+\newlength{\lineWidth}
+\setlength{\lineWidth}{\textwidth}
+
+\newlength{\lineHeight}
+\setlength{\lineHeight}{0.5pt}
+
+\newlength{\lineX}
+\setlength{\lineX}{\slideMargin}
+
+\newlength{\headerLineY}
+\setlength{\headerLineY}{2.26cm}
+
+\newlength{\footerLineOffset}
+% 19.05 - 16.78
+\setlength{\footerLineOffset}{2.27cm}
+
+\newlength{\footerLineY}
+\setlength{\footerLineY}{\paperheight}
+\addtolength{\footerLineY}{-\footerLineOffset}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Footer
+\newlength{\footerPageOffsetY}
+\setlength{\footerPageOffsetY}{1.75cm}
+
+\newlength{\footerPageY}
+\setlength{\footerPageY}{\paperheight}
+\addtolength{\footerPageY}{-\footerPageOffsetY}
+
+% TODO: Really needed?
+\newlength{\footerPageWidth}
+\setlength{\footerPageWidth}{2.03cm}
+
+
+\newlength{\footerOffsetY}
+% 19.05 - 17.3
+\setlength{\footerOffsetY}{1.75cm}
+
+\newlength{\footerX}
+\setlength{\footerX}{3.12cm}
+\newlength{\footerY}
+\setlength{\footerY}{\paperheight}
+\addtolength{\footerY}{-\footerOffsetY}
+
+\newlength{\licenseY}
+\setlength{\licenseY}{\paperheight}
+\addtolength{\licenseY}{-1cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Logo
+
+\newlength{\logoHeight}
+\setlength{\logoHeight}{2.26cm} % from RWTH design guidelines
+
+\newlength{\logoHOffset}
+\setlength{\logoHOffset}{0.45cm} % from RWTH design guidelines
+
+\newlength{\maxLogoWidth}
+\setlength{\maxLogoWidth}{9.89cm} % from RWTH design guidelines
+
+% Set logo (X,Y) position with anchor point bottom right
+\newlength{\logoX}
+\setlength{\logoX}{\dimexpr(\paperwidth-\logoHOffset)}
+
+\newlength{\logoY}
+\setlength{\logoY}{\paperheight}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                  OPTIONS                                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Title image (image, image-big, plain)
+\newcommand{\@itc@titleimage}{}
+
+\newif\ifitc@imagebig
+\itc@imagebigfalse
+
+\pgfkeys{
+  /itc/outer/titleformat/.cd,
+    .is choice,
+    image/.code={
+      \renewcommand{\@itc@titleimage}{
+        % Add small title page image
+        \if@aspectratio{43}
+        {
+          \includegraphics[width=\slideWidth]{imagetitle-43.jpg}
+        }
+        % else ratio is 169 (checked previously in main package)
+        {
+          \includegraphics[width=\slideWidth]{imagetitle-169.jpg}
+        }
+      }
+    },
+    image-big/.code={
+      \itc@imagebigtrue
+      \renewcommand{\@itc@titleimage}{
+        % Add big title page image
+        \if@aspectratio{43}
+        {
+          \includegraphics[width=\slideWidth]{imagetitle-43-big.jpg}
+        }
+        % else ratio is 169
+        {
+          \includegraphics[width=\slideWidth]{imagetitle-169-big.jpg}
+        }
+      }
+    },
+    plain/.code={
+      \renewcommand{\@itc@titleimage}{
+        \begin{beamercolorbox}[wd=\slideWidth,ht=\titlePageImageHeight]{title top area}
+        \end{beamercolorbox}%
+      }
+    },
+    .unknown/.code={
+      \PackageError{beamerthemeitc}{Unsupported title format}{Supported values: image (default), image-big, plain}
+    },
+}
+
+
+% Logo
+\newcommand{\@itc@logo}{}
+
+\pgfkeys{
+  /itc/outer/logo/.cd,
+    .is choice,
+    i12en/.code={
+      \renewcommand{\@itc@logo}{
+         \includegraphics[height=\logoHeight]{logos/rwth_i12_en_rgb.pdf}
+      }
+    },
+    i12de/.code={
+      \renewcommand{\@itc@logo}{
+         \includegraphics[height=\logoHeight]{logos/rwth_i12_de_rgb.pdf}
+      }
+    },
+    itc/.code={
+      \renewcommand{\@itc@logo}{
+         \includegraphics[height=\logoHeight]{logos/rwth_itcenter_rgb.pdf}
+      }
+    },
+    combined/.code={
+      \renewcommand{\@itc@logo}{
+         \includegraphics[height=\logoHeight]{logos/rwth_i12_itc_combined.pdf}
+      }
+    },
+    .unknown/.code={
+      \PackageError{beamerthemeitc}{Unsupported logo}{Supported values: i12en (default), i12de, itc, combined}
+    },
+}
+
+% Set default options
+\pgfkeys{/itc/outer/.cd,
+	titleformat=image,
+	logo=itc
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            TEMPLATE DEFINITIONS                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% title page
+
+\setbeamertemplate{title page}{%
+  % Draw title image at top position of slide
+  \begin{textblock*}{\slideWidth}(0cm,0cm)
+    \@itc@titleimage
+  \end{textblock*}
+
+  % Since textblock uses absolute positions, we have to add additional space
+  % depending on whether we use a big or small image.
+  \ifitc@imagebig
+    \vspace*{\titlePageTitleVSpaceBig}
+  \else
+    \vspace*{\titlePageTitleVSpace}
+  \fi
+
+  % Title
+  \parbox[t]{\textwidth}{
+    \usebeamercolor[fg]{title}
+    \usebeamerfont{title}
+    \inserttitle
+  }
+
+  % Subtitle
+  \ifx\@empty\insertsubtitle
+  \else
+    \vspace{2em minus 2em}
+    \parbox[t]{\textwidth}{
+      \usebeamercolor[fg]{subtitle}
+      \usebeamerfont{subtitle}
+      \insertsubtitle
+    }
+  \fi
+
+  % Presenter
+  \ifx\@empty\currentPresenter
+  \else
+    \vspace{3em minus 2em}
+    \parbox[t]{\textwidth}{
+      \usebeamercolor[fg]{presenter}
+      \usebeamerfont{presenter}
+      \currentPresenter
+    }
+  \fi
+
+  % At least some small space at the end
+  \vspace*{2em}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% section title
+
+\setbeamertemplate{section page}{
+  \begin{textblock*}{\textwidth}(\textX,\sectionPageSectionY)
+  \usebeamercolor[fg]{section title}
+  \usebeamerfont{section title}
+  \insertsectionhead
+  \end{textblock*}
+
+  \ifx\insertsubsectionhead\@empty\else
+    \begin{textblock*}{\textwidth}(\textX,\sectionPageSubsectionY)
+      \usebeamercolor[fg]{subsection title}
+      \usebeamerfont{subsection title}
+      \insertsubsectionhead
+    \end{textblock*}
+  \fi
+
+  \begin{textblock*}{\lineWidth}(\lineX,\sectionPageLineY)
+  \color{black}
+  \rule{\lineWidth}{\lineHeight}
+  \end{textblock*}
+}
+\setbeamertemplate{subsection page}{
+  \usebeamertemplate*{section page}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% frametitle
+
+\setbeamertemplate{frametitle}{
+  \begin{textblock*}{\textwidth}(\textX,\frameTitleY)
+  \parbox[b][\frameTitleHeight]{\textwidth}{
+    \usebeamercolor[fg]{frametitle}
+    \usebeamerfont{frametitle}
+    \insertframetitle
+  }
+  \end{textblock*}
+
+  \begin{textblock*}{\lineWidth}(\lineX,\headerLineY)
+  \color{black}
+  \rule{\lineWidth}{\lineHeight}
+  \end{textblock*}
+
+  \begin{textblock*}{\textwidth}(\textX,\frameSubtitleY)
+  \usebeamercolor[fg]{framesubtitle}
+  \usebeamerfont{framesubtitle}
+  \insertframesubtitle
+  \end{textblock*}
+
+  % Do this here so that it is not shown on the title page!
+  \begin{textblock*}{\lineWidth}(\lineX,\footerLineY)
+  \color{black}
+  \rule{\lineWidth}{\lineHeight}
+  \end{textblock*}
+
+  \begin{textblock*}{\footerPageWidth}(\textX,\footerPageY)
+  \usebeamercolor[fg]{page number in head/foot}
+  \usebeamerfont{page number in head/foot}
+  \insertframenumber
+  \end{textblock*}
+
+  \begin{textblock*}{\footerWidth}(\footerX,\footerY)
+  \usebeamercolor[fg]{footline}
+  \usebeamerfont{footline}
+  \ifcurrentfootline
+    \global\currentfootlinefalse
+    \currentFootline
+  \else
+    \defaultFootline
+  \fi
+  \end{textblock*}
+
+  \begin{textblock*}{\textwidth}(\textX,\licenseY)
+  \usebeamercolor[fg]{license}
+  \usebeamerfont{license}
+  \centering
+  \ifcurrentlicense
+    \global\currentlicensefalse
+    \currentLicense
+  \else
+    \defaultLicense
+  \fi
+  \end{textblock*}
+
+  % Add vertical space so that text begins ...
+  \ifx\insertframesubtitle\@empty
+    % ... below title if subtitle is empty, or ...
+    \vspace{\dimexpr\frameSubtitleY plus 0em minus 1.3cm}
+  \else
+    % ... below subtitle otherwise.
+    \vspace{\dimexpr\textBeginY plus 0em minus 0.5cm}
+  \fi
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% navigation symbols
+% we set the navigation symbols later on in the footline
+\setbeamertemplate{navigation symbols}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% footline
+
+\setbeamertemplate{footline}{
+  % insert vspace such that stretching of items is correctly applied
+  \begin{beamercolorbox}[wd=\paperwidth, ht=2.24cm, right, rightskip=0.7cm, sep=0.1cm]{}
+    \color{rwth-blue!50}{
+	  \insertslidenavigationsymbol%
+	  \insertframenavigationsymbol%
+	  \insertsubsectionnavigationsymbol%
+	  \insertsectionnavigationsymbol%
+	  \insertdocnavigationsymbol%
+	  \insertbackfindforwardnavigationsymbol%
+    }
+  \end{beamercolorbox}
+  % text block with anchor point bottom right
+  \begin{textblock*}{\maxLogoWidth}[1,1](\logoX,\logoY)
+    \hfill
+    \@itc@logo
+  \end{textblock*}
+}

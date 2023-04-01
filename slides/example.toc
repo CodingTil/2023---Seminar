@@ -1,0 +1,7 @@
+\babel@toc {english}{}
+\beamer@sectionintoc {1}{First topic}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Itemize}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Enumerate}{5}{0}{1}
+\beamer@sectionintoc {2}{Different Titles}{6}{0}{2}
+\beamer@sectionintoc {3}{Misc}{9}{0}{3}
+\beamer@subsectionintoc {3}{1}{Listing}{9}{0}{3}

@@ -1,0 +1,75 @@
+% Theme for LaTeX beamer class, inspired by the official PowerPoint template
+%
+% This theme is UNOFFICIAL and not approved by RWTH Aachen University!
+% (Created by Jonas Hahnfeld <Hahnfeld@itc.rwth-aachen.de>)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+
+% Allow fonts with arbitrary size
+\RequirePackage{lmodern}
+\RequirePackage{anyfontsize}
+
+% Set font that is similar to Arial
+\RequirePackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Options
+
+
+% Itemsize of itemize / enumerate
+\pgfkeys{
+	/itc/font/itemsize/.initial = 18pt
+}
+
+\def\itc@itemsize{\pgfkeysvalueof{/itc/font/itemsize}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Font sizes
+
+% Adapt default fontsizes
+\renewcommand\tiny{\@setfontsize\tiny{10}{11}}
+\renewcommand\scriptsize{\@setfontsize\scriptsize{12}{13}}
+\renewcommand\footnotesize{\@setfontsize\footnotesize{14}{16}}
+\renewcommand\small{\@setfontsize\small{16}{19}}
+\renewcommand\normalsize{\@setfontsize\normalsize{18}{22}}
+\renewcommand\large{\@setfontsize\large{20}{24}}
+\renewcommand\Large{\@setfontsize\Large{24}{29}}
+\renewcommand\LARGE{\@setfontsize\LARGE{32}{38}}
+\renewcommand\huge{\@setfontsize\huge{40}{48}}
+\renewcommand\Huge{\@setfontsize\Huge{52}{62}}
+
+\setbeamerfont{note page}{size=\normalsize}
+
+\setbeamerfont{title}{series=\bfseries, size*={32}{38}}
+\setbeamerfont{subtitle}{series=\normalfont, size*={20}{24}}
+\setbeamerfont{presenter}{series=\normalfont, size*={18}{22}}
+
+\setbeamerfont{section title}{series=\bfseries, size*={32}{38}}
+\setbeamerfont{subsection title}{size*={20}{24}}
+
+\setbeamerfont{frametitle}{series=\bfseries, size*={20}{24}}
+\setbeamerfont{framesubtitle}{series=\bfseries, size*={20}{24}}
+
+
+\setbeamerfont{page number in head/foot}{series*=m, size*={14}{11}}
+\setbeamerfont{footline}{series*=m, size*={9}{11}}
+\setbeamerfont{license}{series*=m, size*={18}{22}}
+
+% Same as itemize
+% \textbullet is too large...
+\setbeamerfont{section in toc}{size*={\itc@itemsize}{\dimexpr(\itc@itemsize+4pt)}} % default: 18/22
+\setbeamerfont{subsection in toc}{size*={\dimexpr(\itc@itemsize-2pt)}{\dimexpr(\itc@itemsize+1pt)}} % default: 16/19
+\setbeamerfont{subsubsection in toc}{size*={\dimexpr(\itc@itemsize-2pt)}{\dimexpr(\itc@itemsize+1pt)}} % default: 16/19
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% itemize
+\setbeamerfont{itemize/enumerate body}{size*={\itc@itemsize}{\dimexpr(\itc@itemsize+4pt)}} % default: 18/22
+\setbeamerfont{itemize/enumerate subbody}{size*={\dimexpr(\itc@itemsize-2pt)}{\dimexpr(\itc@itemsize+1pt)}} % default: 16/19
+\setbeamerfont{itemize/enumerate subsubbody}{size*={\dimexpr(\itc@itemsize-2pt)}{\dimexpr(\itc@itemsize+1pt)}} % default: 16/19
+
+% \textbullet is too large...
+\setbeamerfont{itemize item}{size*={\dimexpr(\itc@itemsize-6pt)}{\dimexpr(\itc@itemsize-4pt)}}

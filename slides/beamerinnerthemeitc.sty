@@ -1,0 +1,184 @@
+% Theme for LaTeX beamer class, inspired by the official PowerPoint template
+%
+% This theme is UNOFFICIAL and not approved by RWTH Aachen University!
+% (Created by Jonas Hahnfeld <Hahnfeld@itc.rwth-aachen.de>)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Options
+
+
+% Default space between items (itemize / enumerate)
+\pgfkeys{
+	/itc/inner/defaultitemsep/.initial = 0.4\baselineskip
+}
+
+\def\itc@defaultitemsep{\pgfkeysvalueof{/itc/inner/defaultitemsep}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% enumerate
+
+% FIXME: Applies to all lists, but would only be needed for enumerate!
+\setlength\leftmargini{1cm}
+
+
+\setbeamertemplate{enumerate item}{
+  \usebeamercolor[fg]{enumerate item}
+  \usebeamerfont{enumerate item}
+  \insertenumlabel.
+}
+
+\setbeamertemplate{enumerate subitem}{
+  \usebeamercolor[fg]{enumerate subitem}
+  \usebeamerfont{enumerate subitem}
+  \insertsubenumlabel.
+}
+
+\setbeamertemplate{enumerate subsubitem}{
+  \usebeamercolor[fg]{enumerate subsubitem}
+  \usebeamerfont{enumerate subsubitem}
+  \insertsubsubenumlabel.
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% itemize
+
+\setbeamertemplate{itemize item}{
+  \usebeamercolor[fg]{itemize item}
+  \usebeamerfont{itemize item}
+  \raise.4ex\hbox{\textbullet}
+}
+
+\setbeamertemplate{itemize subitem}{
+  \usebeamercolor[fg]{itemize subitem}
+  \usebeamerfont{itemize subitem}
+  --
+}
+
+\setbeamertemplate{itemize subsubitem}{
+  \usebeamercolor[fg]{itemize subsubitem}
+  \usebeamerfont{itemize subsubitem}
+  \raise.3ex\hbox{\vrule width 0.5ex height 0.5ex}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% enumerate and itemize spacing
+
+% The \frame command is within some LaTeX group, so we have to use
+% \gdef to ensure that a modification of the itemsep of the current frame
+% will be visible in \setbeamertemplate, see below.
+\gdef\itc@thisframeitemsep{\itc@defaultitemsep}
+
+% Frame option to temporarily change the itemsep
+\define@key{beamerframe}{itemsep}{%
+	\gdef\itc@thisframeitemsep{#1}
+}
+
+% Reset the current itemsep to the default itemsep in each frame. This is
+% needed if there was a custom itemsep defined in the previous frame.
+\preto\frame{\setkeys{beamerframe}{itemsep=\itc@defaultitemsep}}
+
+% Source of the following code: https://tex.stackexchange.com/a/412275
+
+\setbeamertemplate{itemize/enumerate body begin}{
+	% Add top separation to first item
+	\vspace{.4\dimexpr(\itc@thisframeitemsep)}
+
+	% Set the itemsep, store old definition of \beamer@cramped
+	% to restore it when leaving the itemize / enumeration.
+	\let\this@beamer@body@cramped\beamer@cramped
+	\renewcommand{\beamer@cramped}{
+		\itemsep\itc@thisframeitemsep\relax
+	}
+}
+
+\setbeamertemplate{itemize/enumerate body end}
+{
+	% Restore old \beamer@cramped
+	\let\beamer@cramped\this@beamer@body@cramped
+}
+
+\setbeamertemplate{itemize/enumerate subbody begin}{
+	% Add top separation to first item
+	\vspace{.4\dimexpr(\itc@thisframeitemsep)}
+
+	% Set the itemsep, store old definition of \beamer@cramped
+	% to restore it when leaving the itemize / enumeration.
+	\let\this@beamer@subbody@cramped\beamer@cramped
+	\renewcommand{\beamer@cramped}{
+		\itemsep\itc@thisframeitemsep\relax
+	}
+}
+
+\setbeamertemplate{itemize/enumerate subbody end}
+{
+	% Restore old \beamer@cramped
+	\let\beamer@cramped\this@beamer@subbody@cramped
+}
+
+
+\setbeamertemplate{itemize/enumerate subsubbody begin}{
+	% Add top separation to first item
+	\vspace{.4\dimexpr(\itc@thisframeitemsep)}
+
+	% Set the itemsep, store old definition of \beamer@cramped
+	% to restore it when leaving the itemize / enumeration.
+	\let\this@beamer@subsubbody@cramped\beamer@cramped
+	\renewcommand{\beamer@cramped}{
+		\itemsep\itc@thisframeitemsep\relax
+	}
+}
+
+\setbeamertemplate{itemize/enumerate subsubbody end}
+{
+	% Restore old \beamer@cramped
+	\let\beamer@cramped\this@beamer@subsubbody@cramped
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% notes
+
+\setbeamertemplate{note page}{
+  % Need to set these again because \beamer@outsideframenote:
+  %  - has no \raise
+  \setbeamertemplate{itemize item}{
+    \raise.4ex\hbox{\textbullet}
+  }
+  %  - would print in blue?!?
+  \setbeamertemplate{itemize subitem}{
+    \textcolor{black}{--}
+  }
+
+  \insertnote
+ }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% table of contents
+
+% to start TOC at top of frame and get a correct spacing
+\patchcmd{\beamer@sectionintoc}
+  {\vfill}
+  {\vskip\itc@defaultitemsep}
+  {}
+  {}
+
+
+% FIX ME: Probably better to define own TOC scheme
+\setbeamertemplate{section in toc}{
+  \leavevmode\usebeamertemplate{itemize item}
+  \usebeamercolor[fg]{section in toc}
+  \usebeamerfont{section in toc}
+  \inserttocsection\par
+}
+
+\setbeamertemplate{subsection in toc}{
+  \hspace{1em}\leavevmode\usebeamertemplate{itemize subitem}
+  \usebeamercolor[fg]{subsection in toc}
+  \usebeamerfont{subsection in toc}
+  \inserttocsubsection\par
+}

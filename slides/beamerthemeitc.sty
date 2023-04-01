@@ -1,0 +1,143 @@
+% Theme for LaTeX beamer class, inspired by the official PowerPoint template
+%
+% This theme is UNOFFICIAL and not approved by RWTH Aachen University!
+% (Created by Jonas Hahnfeld <Hahnfeld@itc.rwth-aachen.de>)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+
+\RequirePackage{ifthen}
+\RequirePackage[absolute, overlay]{textpos}
+\RequirePackage{pgfopts}
+\RequirePackage{etoolbox}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Internal macros
+
+% Detect selected aspect ratio
+\newcommand\if@aspectratio[3]{
+\ifnum#1=43
+    \ifdim\beamer@paperwidth=12.80cm\relax
+        \ifdim\beamer@paperheight=9.60cm\relax
+            #2
+        \else
+            #3
+        \fi
+    \else
+        #3
+    \fi
+\else
+    \ifnum#1=169
+        \ifdim\beamer@paperwidth=16.00cm\relax
+            \ifdim\beamer@paperheight=9.00cm\relax
+                #2
+            \else
+                #3
+            \fi
+        \else
+            #3
+        \fi
+    \fi
+\fi
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Options
+
+\pgfkeys{/itc/.cd,
+  .search also={
+    /itc/inner,
+    /itc/outer,
+    /itc/color,
+    /itc/font,
+  }
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definitions
+
+% maketitle should be in a plain frame, overwrite the beamer definition
+\renewcommand\maketitle{\ifbeamer@inframe\titlepage\else\frame[plain]{\titlepage}\fi}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer settings and length definitions
+
+% Do not center content
+\beamer@centeredfalse
+
+\newlength{\slideMargin}
+\setlength{\slideMargin}{0.8cm}
+
+% FIXME: Have to do this first, will reset dimensions?!?
+\setbeamersize{text margin left=\slideMargin, text margin right=\slideMargin}
+
+\newlength{\slideWidth}
+\newlength{\slideHeight}
+\newlength{\footerWidth}
+
+
+% Set slide sizes depending on aspect ratio
+\if@aspectratio{43}
+{
+  \setlength{\slideWidth}{25.4cm}
+  \setlength{\slideHeight}{19.05cm}
+  \setlength{\footerWidth}{11.81cm}
+}
+% else
+{
+  \if@aspectratio{169}
+  {
+      \setlength{\slideWidth}{33.867cm}
+      \setlength{\slideHeight}{19.05cm}
+      \setlength{\footerWidth}{19.45cm}
+  }
+  % else
+  {
+    \PackageError{beamerthemeitc}{Unsupported aspect ratio}{Supported values: 169, 43 (default)}
+  }
+}
+
+
+\def\currentPresenter{}
+\newcommand{\presenter}[1]{
+  \gdef\currentPresenter{#1}
+}
+
+\def\defaultFootline{\insertshorttitle\ \ |\ \ \insertshortauthor\ \ |\ \ \insertshortinstitute\ \ |\ \ \insertshortdate}
+\newif\ifcurrentfootline
+\def\currentFootline{}
+
+\newcommand{\footline}[1]{
+  % If inside a frame, only set footline for current frame!
+  \ifbeamer@inframe
+    \global\currentfootlinetrue
+    \gdef\currentFootline{#1}
+  \else
+    \gdef\defaultFootline{#1}
+  \fi
+}
+
+\def\defaultLicense{}
+\newif\ifcurrentlicense
+\def\currentLicense{}
+
+\newcommand{\license}[1]{
+  % If inside a frame, only set license for current frame!
+  \ifbeamer@inframe
+    \global\currentlicensetrue
+    \gdef\currentLicense{#1}
+  \else
+    \gdef\defaultLicense{#1}
+  \fi
+}
+
+\usecolortheme{itc}
+\usefonttheme{itc}
+\useinnertheme{itc}
+\useoutertheme{itc}
+
+\ProcessPgfPackageOptions{/itc}

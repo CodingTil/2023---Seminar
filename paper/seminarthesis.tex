@@ -1,0 +1,67 @@
+% Seminar Thesis Template - Chair for High-Performance Computing
+% Note: If you write your thesis in German, then change the babel package include
+%       to "ngerman".
+%
+% TODOs:
+% 1. Configure the seminar thesis options (title, author, ...) in "my_config.tex".
+% 2. If the language of your thesis is not English: Change the option in the babel
+%    package import to "ngerman". (see below)
+% 3. (Optional) You might want to switch the BibLaTeX backend from "bibtex" to "biber".
+%
+\documentclass[10pt,          % font size
+               a4paper,       % page layout
+               twocolumn,     % two-column format
+               DIV=14,        % page margins
+               BCOR=8mm,      % binding correction for two-sided prints
+               twoside        % for two-sided prints
+              ]{scrartcl}
+
+% TODO: Set language here
+\usepackage[english]{babel}   % change to "ngerman" if you write your thesis in German
+
+\usepackage{hpcseminar}
+\usepackage[utf8]{inputenc}   % UTF-8 encoding (for umlauts etc.)
+\usepackage[T1]{fontenc}      % correct hyphenation
+\usepackage{csquotes}         % correct quotation marks
+\usepackage{lmodern}          % Computer Modern fonts
+\usepackage{microtype}        % better typesetting results (avoids underfull / overfull hboxes)
+\usepackage{graphicx}         % adding graphics
+\usepackage{units}            % typesetting units, e.g. \unit[10]{MB} and \unitfrac[100]{Mbit}{s}
+\usepackage{booktabs}         % publication quality tables
+%\usepackage{siunitx}         % alternative (more features) unit typesetting package
+
+
+% BibLaTeX settings
+\usepackage[backend=bibtex, style=numeric, maxcitenames=2, natbib=true]{biblatex}
+\addbibresource{literature}
+
+% Put your own includes in "my_includes.tex"
+\input{my_includes}
+
+
+\begin{document}
+
+%% TODO: Configure details in my_config.tex
+\input{my_config}
+
+% Generate title
+\maketitle
+
+% Abstract
+% TODO: Write your abstract in "abstract.tex"
+\begin{abstract}
+\input{abstract}
+
+% Print out keywords
+\noindent\keywordsline
+\end{abstract}
+
+% Chapters are included here
+% TODO: Add your chapters in "my_chapters.tex"
+\input{my_chapters}
+
+% Print references
+% Add entries to "literature.bib"
+\printbibliography
+
+\end{document}
