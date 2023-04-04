@@ -15,6 +15,7 @@
 ### Notes
  - 2 step approach (coarse and fine-grained), but **both static**
  - Fine-Grained view simulates execution on hardware to determine further metrics
+ - Displays Logical and Physical Data Layout and Movements, which the Programmer usually is not aware of during development -> 0 Cost Implementation Time Optimizations possible
 
 
 # Motivation - Memory Speed Gap

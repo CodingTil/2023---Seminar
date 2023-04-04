@@ -18,8 +18,31 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "81dcbb110d54da9d",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf"
+              }
+            }
+          },
+          {
+            "id": "4286cc12b10c2c0b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Outline_Ideas.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -69,7 +92,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 690.5
+    "width": 315.5
   },
   "right": {
     "id": "358187b34a4f734f",
@@ -85,7 +108,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "References.md",
+                "file": "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +125,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "References.md",
+                "file": "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +148,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "References.md"
+                "file": "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf"
               }
             }
           }
@@ -146,16 +169,16 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "54dfc99e51a202b8",
+  "active": "81dcbb110d54da9d",
   "lastOpenFiles": [
-    "reference_pdfs/The_Landscape_of_Parallel_Computing_Research_A_View_from_Berkeley.pdf",
     "References.md",
+    "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf",
+    "Outline_Ideas.md",
+    "reference_pdfs/The_Landscape_of_Parallel_Computing_Research_A_View_from_Berkeley.pdf",
     "reference_pdfs/An_Early_Evaluation_of_Intel’s_Optane_DC_Persistent_Memory_Module_and_its_Impact_on_High-Performance_Scientific_Applications.pdf",
     "reference_pdfs/Hitting_the_Memory_Wall_Implications_of_the_Obvious.pdf",
     "reference_pdfs/A_Modern_Primer_on_Processing_in_Memory.pdf",
-    "Outline_Ideas.md",
     "reference_pdfs/The_Gap_between_Processor_and_Memory_Speeds.pdf",
-    "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf",
     "Scope.md",
     "Untitled 1.canvas",
     "Untitled.canvas",
