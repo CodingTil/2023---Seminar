@@ -14,7 +14,8 @@
 	- (Define what we are trying to achieve, so later on I can explain how each approach tackles it)
 	- --> Explain that we use Visualizations to optimize the programs by hand
 	- --> Must obtain suitable data first!
-2. Approaches / Techniques / Methods _explain each in detail, then briefly go over the concrete examples in next section_ DATA GATHERING METHODS!
+	- - Increasing Processor-Memory Speed Gap and increasing requirements result in an heavy increase in the affect of data movement costs and their resulting bottlenecks. While this can be solved by improving hardware capabilities (through breakthroughs in research), we can already try to optimize programs to mitigate these issues (by improving data locality) - Increasing complexity of programs makes it difficult to create a mental data movement model of that program, making it very difficult for experts to optimize it, and impossible for domain researchers (people in medicine etc.) - Goal: We need to make it accessible to everyone to easily optimize a program - To do this, we automatically gather data (refer to section 5), and then visualize it in a understandable manner (section 6) so people know where issues are and what issues to fix
+1. Approaches / Techniques / Methods _explain each in detail, then briefly go over the concrete examples in next section_ DATA GATHERING METHODS!
 	1. Dynamic Analysis -  Profiling, Tracing & Hardware Counters
 		 - + Hard Data
 		 - - Very Coarse Time granularity (https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6069452)
@@ -33,11 +34,11 @@
 		- Briefly explain [Boosting](References#Methods#Boosting Performance Optimization with Interactive  Data Movement Visualization)
 		- Explain how it works (2 granularity approach) --> Focus on Data gathering
 		- Briefly go into the visualization
-4. Concrete Examples + Comparisons/Results
+2. Concrete Examples + Comparisons/Results
 	- [Boosting](References#Methods#Boosting Performance Optimization with Interactive  Data Movement Visualization) is very good, as it combines visualizing performance data, exploring data reuse with data-centric analysis, or obtaining performance insights through simulation, at basically 0 cost. But not hardware specific, and requires parameter tweaking to work. Furthermore a limitation is, that it does not work well with dynamic programs (at least at the global view)
 	- Further techniques that rely on execution (getting hardware counters) can verify currently made optimizations and can help to detect opportunities for further optimization based on specific hardware (architectures)
-5. Conclusion
-6. Outlook
+3. Conclusion
+4. Outlook
  - Automatic Optimization (using heuristics), no visualizations, directly in compiler
  - ProGraML: A Graph-based Program Representation for Data Flow Analysis and Compiler Optimizations
  - https://arxiv.org/pdf/2112.11879.pdf

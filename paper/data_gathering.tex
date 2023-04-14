@@ -1,0 +1,43 @@
+\section{Data Gathering Techniques}\label{sec:data_gathering}
+\textit{In this section, we will discuss the different approaches to gathering data for visualizing data movements in a program.}
+
+\subsection{Dynamic Analysis}\label{sec:dynamic_analysis}
+\textit{Run program and gather data while it is running, using Hardware Counters, Profiling, or Tracing.}
+
+Advantages:
+\begin{itemize}
+  \item No need for parameterization -> already is compiled for specific hardware
+  \item Can be used in combination with actual data -> even more accurate information
+\end{itemize}
+Disadvantages:
+\begin{itemize}
+  \item Running a whole program is expensive (time and cost)
+  \item Difficult to isolate and analyze specific parts of the program
+  \item Very coarse time granularity -> can not measure very short time intervals (hardware counters are not precise enough in aspects of being update / read)
+\end{itemize}
+
+\subsection{Static Analysis}\label{sec:static_analysis}
+\textit{Analyze the program statically using a compiler}
+
+Advantages:
+\begin{itemize}
+  \item Can be used to analyze specific parts of the program
+  \item Fast and cheap -> No need to run program
+\end{itemize}
+Disadvantages:
+\begin{itemize}
+  \item Needs to be parameterized for specific hardware (and often not accurate enough -> might miss some details)
+  \item Can not be used in combination with actual data
+\end{itemize}
+
+\subsection{Simulation}\label{sec:simulation}
+\textit{Simulate the program on a simulator}
+
+Advantages:
+\textbf{TODO}
+\begin{itemize}
+  \item Can be used to analyze specific parts of the program
+  \item In between Static and Dynamic Analysis in terms of precision and speed and cost
+\end{itemize}
+Disadvantages:
+\textbf{TODO}
