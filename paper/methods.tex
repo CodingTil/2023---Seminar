@@ -1,4 +1,6 @@
-\section{Data Gathering Techniques}\label{sec:data_gathering}
+\section{Methods}\label{sec:methods}
+\textit{The goal is to make it easily accessible and possible for everyone (experts and domain researchers) to understand a programs' data movements and fix issues. To do this, data has to be gathered automatically (\ref{sec:dynamic_analysis},\ref{sec:static_analysis},\ref{sec:simulation}) and then visualized in an understandable manner (\ref{sec:visualization}).}
+
 \textit{In this section, we will discuss the different approaches to gathering data for visualizing data movements in a program.}
 
 \subsection{Dynamic Analysis}\label{sec:dynamic_analysis}
@@ -6,14 +8,14 @@
 
 Advantages:
 \begin{itemize}
-  \item No need for parameterization -> already is compiled for specific hardware
-  \item Can be used in combination with actual data -> even more accurate information
+  \item No need for parameterization → already is compiled for specific hardware
+  \item Can be used in combination with actual data → even more accurate information
 \end{itemize}
 Disadvantages:
 \begin{itemize}
   \item Running a whole program is expensive (time and cost)
   \item Difficult to isolate and analyze specific parts of the program
-  \item Very coarse time granularity -> can not measure very short time intervals (hardware counters are not precise enough in aspects of being update / read)
+  \item Very coarse time granularity → can not measure very short time intervals (hardware counters are not precise enough in aspects of being updated / read)
 \end{itemize}
 
 \subsection{Static Analysis}\label{sec:static_analysis}
@@ -22,11 +24,11 @@ Disadvantages:
 Advantages:
 \begin{itemize}
   \item Can be used to analyze specific parts of the program
-  \item Fast and cheap -> No need to run program
+  \item Fast and cheap → No need to run program
 \end{itemize}
 Disadvantages:
 \begin{itemize}
-  \item Needs to be parameterized for specific hardware (and often not accurate enough -> might miss some details)
+  \item Needs to be parameterized for specific hardware (and often not accurate enough → might miss some details)
   \item Can not be used in combination with actual data
 \end{itemize}
 
@@ -41,3 +43,6 @@ Advantages:
 \end{itemize}
 Disadvantages:
 \textbf{TODO}
+
+\subsection{Visualization Techniques}\label{sec:visualization}
+\textit{Very brief overview of different visualizations (Colored Graphs, Heatmaps, etc.)}
