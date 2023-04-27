@@ -1,10 +1,11 @@
-\section{Methods}\label{sec:methods}
+\section{Data Gathering and Visualization Approaches}\label{sec:methods}
 \textit{The goal is to make it easily accessible and possible for everyone (experts and domain researchers) to understand a programs' data movements and fix issues. To do this, data has to be gathered automatically (\ref{sec:dynamic_analysis},\ref{sec:static_analysis},\ref{sec:simulation}) and then visualized in an understandable manner (\ref{sec:visualization}).}
 
 \textit{In this section, we will discuss the different approaches to gathering data for visualizing data movements in a program.}
 
 \subsection{Dynamic Analysis}\label{sec:dynamic_analysis}
 \textit{Run program and gather data while it is running, using Hardware Counters, Profiling, or Tracing.}
+\cite{gimenez2017memaxes,moreta2007visualizing,bhatele2012novel,mckinley1999quantifying,adhianto2010hpctoolkit}
 
 Advantages:
 \begin{itemize}
@@ -20,6 +21,7 @@ Disadvantages:
 
 \subsection{Static Analysis}\label{sec:static_analysis}
 \textit{Analyze the program statically using a compiler}
+\cite{schaad2022boosting,schaad2021boosting,ben2019statefulSDFG,matwin1985prograph,kodosky2020labview,calotoiu2022lifting,ben2023bridging}
 
 Advantages:
 \begin{itemize}
@@ -34,6 +36,7 @@ Disadvantages:
 
 \subsection{Simulation}\label{sec:simulation}
 \textit{Simulate the program on a simulator}
+\cite{schaad2022boosting,hammer2017kerncraft,choudhury2011abstract,iakymchuk2012modeling}
 
 Advantages:
 \textbf{TODO}

@@ -1,6 +1,6 @@
 title1. Abstract
 2. Introduction
-3. Motivation / Background
+3. Motivation / BackgVisualizing Dyround
 	 - Increasing Gap between Processor and Memory Speeds
 		 - https://repository.kaust.edu.sa/bitstream/handle/10754/667780/Technical%20Reportfile1.pdf?sequence=1 Figure 2.2
 	 - (Prices of Processing Units and Memory/Storage Units)

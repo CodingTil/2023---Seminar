@@ -42,7 +42,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -108,7 +108,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf",
+                "file": "Outline_Ideas.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -125,7 +125,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf",
+                "file": "Outline_Ideas.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -148,7 +148,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf"
+                "file": "Outline_Ideas.md"
               }
             }
           }
@@ -169,10 +169,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "81dcbb110d54da9d",
+  "active": "4286cc12b10c2c0b",
   "lastOpenFiles": [
-    "Outline_Ideas.md",
     "reference_pdfs/Boosting_Performance_Optimization_with_Interactive_Data_Movement_Visualization.pdf",
+    "Outline_Ideas.md",
     "References.md",
     "reference_pdfs/The_Landscape_of_Parallel_Computing_Research_A_View_from_Berkeley.pdf",
     "reference_pdfs/An_Early_Evaluation_of_Intel’s_Optane_DC_Persistent_Memory_Module_and_its_Impact_on_High-Performance_Scientific_Applications.pdf",
