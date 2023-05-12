@@ -1,0 +1,1 @@
+{"rule":"BEEN_PART_AGREEMENT","sentence":"^\\QTherefore, for any application, regardless if it is compute or memory bound, it is crucial to\\E$"}

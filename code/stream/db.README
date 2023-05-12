@@ -1,0 +1,19 @@
+# Field Key:
+# 1	name
+# 2	ncpus
+# 3	bytes/word
+# 4	COPY
+# 5	SCALE
+# 6	ADD
+# 7	TRIAD
+# 8	Clock (MHz)
+# 9	Peak FP Ops/clock
+# 10	shared memory?
+# 11	distributed memory?
+# 12	Uniprocessor?
+# 13	Other?
+# 14	Standard (S) / Tuned (T) / Experimental (E) results
+# 15    obsolete/old/superceded?
+# 16    P (PC) / M (Mac) / N (other) / C (cluster)
+# 17    date
+# 18    link to html file containing original submission data
