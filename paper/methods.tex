@@ -21,34 +21,51 @@ In conclusion, dynamic analysis offers several distinct advantages in the study 
 However, it's important to note the inherent disadvantages of dynamic analysis. The act of running an entire program can be time-consuming and costly, particularly for larger and more complex software. Additionally, isolating and scrutinizing specific parts of a program under the dynamic analysis approach can be complicated, especially when compared to static analysis methods (Section \ref{sec:static_analysis}).
 
 \subsection{Static Analysis}\label{sec:static_analysis}
-\textit{Analyze the program statically using a compiler}
-\cite{schaad2022boosting,schaad2021boosting,ben2019statefulSDFG,matwin1985prograph,kodosky2020labview,calotoiu2022lifting,ben2023bridging}
+Unlike dynamic analysis, static analysis takes a different tack in examining a program's data locality. Instead of operating the program in real-time to gather data, static analysis scrutinizes the program's source code itself. By transforming the source code into an intermediate representation (IR) that centers on data, and subsequently analyzing this IR, static analysis is able to uncover memory-related issues \cite{schaad2022boosting,schaad2021boosting,calotoiu2022lifting,ben2023bridging}.
 
-Advantages:
-\begin{itemize}
-  \item Can be used to analyze specific parts of the program
-  \item Fast and cheap → No need to run program
-\end{itemize}
-Disadvantages:
-\begin{itemize}
-  \item Needs to be parameterized for specific hardware (and often not accurate enough → might miss some details)
-  \item Can not be used in combination with actual data
-\end{itemize}
+There are myriad IRs in use, like MLIR, which are predominantly control-flow oriented, facilitating optimizations pivoting around control elements like loop restructuring \cite{moses2021polygeist}. However, in the context of data locality, data-centric IRs such as SDFG (\cite{ben2019statefulSDFG}), PROGRAPH (\cite{matwin1985prograph}), and LabVIEW (\cite{kodosky2020labview}) provide a more direct approach. By prioritizing memory, its movements, and its computation-induced alterations, these IRs allow for both automated (\cite{ben2019statefulSDFG}) and, when paired with visual aids, manual enhancements of data locality \cite{ben2023bridging,ben2019statefulSDFG,schaad2021boosting}.
 
-\subsection{Simulation}\label{sec:simulation}
-\textit{Simulate the program on a simulator}
-\cite{schaad2022boosting,hammer2017kerncraft,choudhury2011abstract,iakymchuk2012modeling}
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{pictures/SDFG.png}
+  \caption{C language source code and its corresponding SDFG representation \cite{calotoiu2022lifting}.}
+  \label{fig:sdfg}
+\end{figure}
 
-Advantages:
-\textbf{TODO}
+Taking the example of SDFGs, the entire data flow of a program can be represented as a directed graph. Nodes within this graph symbolize $N$-dimensional arrays of data, computations (tasklets), or map scopes that denote general parallelism (such as loops). The edges, or memlets, in an SDFG represent explicit data movements \cite{ben2019statefulSDFG}. An example of the SDFG IR is provided in Figure \ref{fig:sdfg}.
+
+As the SDFG IR of a program is constructed, it is possible to compute memory-related properties crucial for data locality. For instance, each memlet carries information regarding the volume of data transported between nodes \cite{ben2019statefulSDFG}, and tasklets and nested SDFGs can be annotated with metadata related to the number of executions and arithmetic operations undertaken \cite{schaad2021boosting}. Consequently, SDFGs offer a comprehensive view of the program and facilitate the identification of data movement bottlenecks on a large scale.
+
+Despite static analysis's robust capability for macroscopic program analysis - a trait not shared with dynamic analysis - it does not provide the same level of detail. Given that performance bottlenecks are often induced by memory accesses that are tied to physical access patterns and hence are hardware-specific, static analysis alone may not accurately predict, say, the number of cache misses for a particular function. However, the advantage of static analysis lies in the fact that it does not necessitate program execution, thereby enabling quicker and cost-effective optimization of logical data movements compared to dynamic analysis.
+
+\subsection{Cache Simulation}\label{sec:simulation}
+Positioned between dynamic and static analysis lies the realm of simulation-based approaches, of which cache simulation is particularly noteworthy. Cache simulation is a method used to simulate a program's data accesses on a virtual memory hierarchy model. This process allows for an in-depth examination of both spatial and temporal data locality, as elaborated on in Section \ref{sec:data_locality}.
+
+The process of setting up a cache simulator can be divided into two ways:
+
+In the first approach, the program is pseudo-executed without implementing any real computations. This process starts by constructing a virtual memory hierarchy that includes caches. As the program proceeds through its lifecycle:
 \begin{itemize}
-  \item Can be used to analyze specific parts of the program
-  \item In between Static and Dynamic Analysis in terms of precision and speed and cost
+	\item Corresponding space is allocated in the simulated memory for each instance of allocation, and reciprocally, space is deallocated as per the program's instructions.
+	\item The simulator emulates each memory access operation, both read and write, according to how a CPU would handle the task. This entails an initial probe in the L1 cache, followed by a potential cache miss procedure if the required data is absent, as discussed in Section \ref{sec:data_transfer}.
 \end{itemize}
-Disadvantages:
-\textbf{TODO}
+This methodology facilitates a comprehensive and accurate representation of the system's memory hierarchy and its interaction with the computing process \cite{schaad2022boosting,hammer2017kerncraft}.
+
+The second approach uses dynamic analysis (Section \ref{sec:dynamic_analysis}) to generate memory traces. These traces are then rerun through the simulator, enabling an enriched understanding of memory access and management behavior within the program \cite{choudhury2011abstract}.
+
+The deployment of cache simulators extends beyond mere prediction of cache misses. When operated in a step-by-step manner, these tools permit the exploration of data access patterns of a procedure at a granular level. Such detailed inspection can uncover potential enhancements in spatial locality, either through modifications in data layout or access strategies, ultimately contributing to improved performance \cite{schaad2022boosting,hammer2017kerncraft,choudhury2011abstract}.
+
+Moreover, cache simulation enables close-up performance analysis of a program, such as focusing on a single function within the source code or limiting memory traces to a specific functional context.
+
+Despite its advantages, cache simulation demands an in-depth understanding of the target architecture, including aspects like cache hierarchy, cache replacement policy, and cache coherence protocol. Any inaccuracies in these parameters can lead to misleading results, potentially causing optimization attempts to inadvertently degrade the program's data locality.
 
 \subsection{Visualization Techniques}\label{sec:visualization}
+
+\subsubsection{Coarse View}
+
+\subsubsection{Medium View}
+
+\subsubsection{Fine-Grained View}
+
 \textit{Very brief overview of different visualizations (Colored Graphs, Heatmaps, etc.)}
 
 \textit{From HPC Toolkit: Typical metrics such as elapsed time
