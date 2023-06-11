@@ -1,17 +1,22 @@
-\section{Memory Access Visualization Tools}\label{sec:works}
-\textit{Take \char`~ 3 papers, briefly present how they work (which data gathering technique and what visualization), and what results they have shown.}
+\section{Exemplary Memory Access Visualization Tools}\label{sec:works}
+This section examines several prominent works dedicated to visualizing memory movements and accesses. Each tool will be discussed in terms of its data gathering methods, visualization techniques, and demonstrated results. We will then contrast these tools, highlighting their strengths and weaknesses.
 
-\subsection{MemAxes: Visualization and Analytics for
-Characterizing Complex Memory Performance
-Behaviors}\label{sec:memaxes}
-\cite{gimenez2017memaxes}
+\subsection{MemAxes: Visualization and Analytics for Characterizing Complex Memory Performance Behaviors}\label{sec:memaxes}
+The tool \texttt{MemAxes}, developed by Giménez et al. \cite{gimenez2017memaxes}, utilizes dynamic analysis (Section \ref{sec:dynamic_analysis}) to generate an event log of memory accesses. Each logged event incorporates contextual information, facilitating a link back to the source code and recording the memory hierarchy depth at which the memory access occurred. This feature allows for the identification of problematic code lines, similar to \texttt{HPCToolkit} \cite{adhianto2010hpctoolkit}, as illustrated in Figure \ref{fig:coarse}. Recording the resolution depth of memory access enables the determination of resource utilization across each memory module and the quantification of physical data movements between them. This information is then visualized using a radial design of the hardware topology, as seen in Figure \ref{fig:memaxes_cache}. \texttt{MemAxes} also supports the display of additional attributes such as access times, latencies, and memory addresses through histograms.
 
-\subsection{Abstract Visualization of
-Runtime Memory Behavior}\label{sec:abstract}
-\cite{choudhury2011abstract}
+In practical applications, \texttt{MemAxes} has been employed successfully to detect and mitigate performance bottlenecks, even without prior knowledge of the application's source code \cite{gimenez2017memaxes}. Performance engineers can, for instance, identify large load imbalances or significant spikes in access times, and use these insights to hypothesize the cause of a performance bottleneck. This hypothesis can then be explored further through the backlink to the source code. This approach demonstrates that low-level visual aids are not necessary for optimizing data locality in an unfamiliar program.
 
-\subsection{Boosting Performance Optimization with Interactive
-Data Movement Visualization}\label{sec:boosting}
-\cite{schaad2022boosting}
+\subsection{Abstract Visualization of Runtime Memory Behavior}\label{sec:abstract}
+Choudhury et al. \cite{choudhury2011abstract}, similar to \texttt{MemAxes}, employs dynamic analysis to record an event log of memory accesses during runtime (Section \ref{sec:dynamic_analysis}). This log is subsequently input into a cache simulator (Section \ref{sec:simulation}) to create the radial visualizations represented in Figure \ref{fig:abstract_cache}. The authors generate numerous such visualizations throughout the program's execution, effectively creating an animation showcasing the evolution of data movements within the memory hierarchy. This dynamic approach, they argue, is more intuitive than static visualizations, such as those of \texttt{MemAxes}. While this tool does indeed enhance the understanding of large-scale memory access and caching behavior, its granularity is insufficient for general bottleneck resolution.
+
+\subsection{Boosting Performance Optimization with Interactive Data Movement Visualization}\label{sec:boosting}
+The tool developed by Schaad et al. \cite{schaad2021boosting,schaad2022boosting} enables two-tier program analysis:
+
+At the global level, static analysis (Section \ref{sec:static_analysis}) is used to compile the program source code into an SDFG graph, providing an overview as shown in Figure \ref{fig:coarse}. This graph, with its color-customizable nodes and edges, aids in identifying problematic program sections, especially when utilizing the automatic node and edge collapsing feature for easy zooming.
+
+For in-depth analysis of data locality and reuse behavior, the tool uses cache simulation (Section \ref{sec:simulation}) to offer detailed views of specific program segments, as depicted in Figure \ref{fig:boosting_cache}.
+
+The authors successfully employed this tool to significantly optimize two applications. After pinpointing problem areas in the global view, the engineers utilized the local view for a thorough investigation and subsequent optimization of these areas.
 
 \subsection{Comparison}\label{sec:comparison}
+Among the three tools, the animation provided by Choudhury et al. \cite{choudhury2011abstract} offers the most intuitive understanding of large-scale memory access and caching behavior. However, comprehensive program optimization requires contextual information about inefficient memory access locations, which is supplied by \texttt{MemAxes} \cite{gimenez2017memaxes} and the tool by Schaad et al. \cite{schaad2021boosting}. Of all three, Schaad et al.'s tool provides the most detailed low-level visualizations. The tool's ability to depict the influence of data layout on cache hit ratio proves invaluable for optimizing data locality. However, the tool's reliance on cache simulation necessitates consideration of parameterization, as discussed in Section \ref{sec:simulation}.

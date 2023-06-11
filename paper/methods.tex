@@ -24,7 +24,7 @@ However, it's important to note the inherent disadvantages of dynamic analysis. 
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{pictures/SDFG.png}
-  \caption{C language source code and its corresponding SDFG representation \cite{calotoiu2022lifting}.}
+  \caption{\texttt{C} language source code and its corresponding SDFG representation \cite{calotoiu2022lifting}.}
   \label{fig:sdfg}
 \end{figure}
 
@@ -37,7 +37,7 @@ However, it's important to note the inherent disadvantages of dynamic analysis. 
 		\centering
 		\includegraphics[width=\linewidth]{pictures/hpctoolkitviewer.png}
 	\end{subfigure}
-	\caption{Left: Coloring in memory volume onto memlets and arithmetic intensity onto tasklets in an SDFG \cite{schaad2021boosting}. Right: HPCToolkit's viewer, which displays the program's source code and its corresponding memory access information \cite{adhianto2010hpctoolkit}.}
+	\caption{Left: Coloring in memory volume onto memlets and arithmetic intensity onto tasklets in an SDFG \cite{schaad2021boosting}. Right: \texttt{HPCToolkit}'s viewer, which displays the program's source code and its corresponding memory access information \cite{adhianto2010hpctoolkit}.}
 	\label{fig:coarse}
 \end{figure*}
 
@@ -73,24 +73,12 @@ Moreover, cache simulation enables close-up performance analysis of a program, s
 Despite its advantages, cache simulation demands an in-depth understanding of the target architecture, including aspects like cache hierarchy, cache replacement policy, and cache coherence protocol. Any inaccuracies in these parameters can lead to misleading results, potentially causing optimization attempts to inadvertently degrade the program's data locality.
 
 \subsection{Visualization Techniques}\label{sec:visualization}
-
-The visualization of data locality is a crucial component of any data locality analysis. It is the primary means of conveying the results of the analysis to the user, and as such, it must be both intuitive and informative. The visualizations of the gathered memory-related knowledge can be divided into three categories, each of which is suited to a particular level of granularity:
-
-\subsubsection{Coarse View}\label{sec:coarse_view}
-The most abstract view of data locality serves to provide a global comprehension of the program's performance by exposing logical data movement behavior and highlighting the performance impact of individual program parts \cite{schaad2021boosting,schaad2022boosting,gimenez2017memaxes,adhianto2010hpctoolkit}, as depicted in Figure \ref{fig:coarse}.
-A crucial feature with these visualizations is hierarchical clustering in order to zoom into specific parts of the program, for instance by focusing on a loop nest. However, while these types of visualizations enable to identify coarse bottlenecks, they do not provide any reason to what causes them. For this purpose, more detailed local visualizations are required.
-
-\subsubsection{Medium View}\label{sec:medium_view}
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{pictures/memaxes_cache.png}
 	\caption{Left: A radial design representing the hardware topology. Main memory resources are depicted in deep purple and processing units in dark orange, with different layers of caches in between. Right: An complex architecture is portrayed, featuring performance data tagged onto the hardware resources through a color code, and transactions among them indicated by line thickness \cite{gimenez2017memaxes}.}
 	\label{fig:memaxes_cache}
 \end{figure}
-
-Visualizations with medium granularity provide the performance engineer with more detailed information compared to coarse views and, thus, are used to inspect the data locality of specific program segments such as functions or loops. A common technique is depicting the hardware topology to depict physical data movements between different levels of the memory hierarchy, as shown in Figure \ref{fig:memaxes_cache}. These visualizations yield a better understanding of the program's performance bottlenecks and can be used to identify the most promising optimization opportunities \cite{gimenez2017memaxes,choudhury2011abstract}. However, it does not provide any information about the data layout or access patterns, which is why a fine-grained view is required.
-
-\subsubsection{Fine-Grained View}\label{sec:fine_view}
 \begin{figure}
 	\centering
 	\begin{subfigure}[c]{.54\linewidth}
@@ -101,8 +89,34 @@ Visualizations with medium granularity provide the performance engineer with mor
 		\centering
 		\includegraphics[width=\linewidth]{pictures/boosting_access_patterns.png}
 	\end{subfigure}
-	\caption{Left: Illustration of data layouts emphasizing spatial locality via cache lines. Right: Visualization of correlated accesses to elements $A$ and $B$ with respect to accesses to $C[3,x], x \in \{0,1,2\}$. \cite{schaad2022boosting}}
+	\caption{Left: Illustration of data layouts emphasizing spatial locality via cache lines. Right: Visualization of correlated accesses to elements $A$ and $B$ with respect to accesses to $C[3,x], x \in \{0,1,2\}$ \cite{schaad2022boosting}.}
 	\label{fig:boosting_cache}
 \end{figure}
 
-Only fine-grained visualizations can result into explicit suggestions for optimization. These visualizations are used to inspect the data layout and access patterns of a specific program segment, such as a loop nest. Figure \ref{fig:boosting_cache} shows two examples of such visualizations. The left image depicts the data layout of a matrix, highlighting the spatial locality of the elements within a cache line. The right image shows the access patterns of a loop nest, indicating the correlation between accesses to different arrays. These visualizations are used to identify optimization opportunities, such as improving the spatial locality of a data structure by reshaping the data or reordering the loop to improve the data access patterns \cite{schaad2022boosting}. However, these visualizations are only useful for a single program segment and do not provide any information about the global data locality of the program. Therefore, a combination of the visualization techniques is required to obtain a comprehensive understanding of the program's data locality.
+\begin{figure*}
+	\begin{subfigure}[c]{.48\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/abstract_explanation.png}
+	\end{subfigure}
+	\begin{subfigure}[c]{.24\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/abstract_standard.png}
+	\end{subfigure}
+	\begin{subfigure}[c]{.24\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/abstract_optimized.png}
+	\end{subfigure}
+	\caption{Left: Radial design used in \cite{choudhury2011abstract}. Glyphs arrange themselves into groupings indicating storage on the same cache, with data closer to the boundaries between the levels more likely to be evicted. Right: A comparison of a standard $16 \times 16$ matrix multiplication and an optimized version using $4 \times 4$ blocking. The standard version shows poor data reuse for two of the three matrices \cite{choudhury2011abstract}.}
+	\label{fig:abstract_cache}
+\end{figure*}
+
+Visualization is an essential aspect of data locality analysis, providing the vital link between the analysis results and user comprehension. Effective visualization techniques should balance intuitiveness and informational value. Generally, visualizations for memory-related data can be classified into three categories, each catering to a specific level of detail:
+
+\subsubsection{High-Level View}\label{sec:coarse_view}
+This category of visualization provides the most abstract or "bird's eye" view of data locality, aiming to deliver a global understanding of the program's performance. It emphasizes the logical data movement behavior, spotlighting the performance impact of individual parts of the program \cite{schaad2021boosting,schaad2022boosting,gimenez2017memaxes,adhianto2010hpctoolkit}, as illustrated in Figure \ref{fig:coarse}. An integral feature of such visualizations is hierarchical clustering, which allows users to zoom into specific parts of the program, such as a loop nest. Despite providing a broad performance landscape, these visualizations do not shed light on the root causes of identified bottlenecks, warranting a more detailed examination.
+
+\subsubsection{Intermediate-Level View}\label{sec:medium_view}
+At the intermediate level, visualizations offer more detailed insights than high-level overviews, targeting specific segments of the program like functions or loops. One common technique involves displaying the hardware topology to visualize physical data movements across different levels of the memory hierarchy, as shown in Figure \ref{fig:memaxes_cache}. This more granular perspective assists in understanding performance bottlenecks and can help identify the most promising optimization opportunities \cite{gimenez2017memaxes,choudhury2011abstract}. Yet, it does not provide information about underlying problematic data layout or access patterns, necessitating a deeper, fine-grained examination.
+
+\subsubsection{Detailed View}\label{sec:fine_view}
+The detailed or fine-grained visualizations delve into specific aspects like data layout and access patterns within specific program segments, for instance, a loop nest. Figure \ref{fig:boosting_cache} displays two examples of such visualizations. The left image illustrates the data layout of a matrix, highlighting the spatial locality of elements within a cache line. The right image presents the access patterns of a loop nest, showing the correlation between accesses to different arrays. This level of visualization aids in identifying potential optimization routes, such as reshaping data to improve spatial locality or reordering the loop to enhance data access patterns \cite{schaad2022boosting}. However, these visualizations provide insights into only one program segment at a time and lack a broader picture of the program's overall data locality. Therefore, it's advisable to use a mix of visualization techniques to obtain a comprehensive understanding of a program's data locality.
