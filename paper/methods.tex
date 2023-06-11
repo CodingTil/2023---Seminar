@@ -21,16 +21,29 @@ In conclusion, dynamic analysis offers several distinct advantages in the study 
 However, it's important to note the inherent disadvantages of dynamic analysis. The act of running an entire program can be time-consuming and costly, particularly for larger and more complex software. Additionally, isolating and scrutinizing specific parts of a program under the dynamic analysis approach can be complicated, especially when compared to static analysis methods (Section \ref{sec:static_analysis}).
 
 \subsection{Static Analysis}\label{sec:static_analysis}
-Unlike dynamic analysis, static analysis takes a different tack in examining a program's data locality. Instead of operating the program in real-time to gather data, static analysis scrutinizes the program's source code itself. By transforming the source code into an intermediate representation (IR) that centers on data, and subsequently analyzing this IR, static analysis is able to uncover memory-related issues \cite{schaad2022boosting,schaad2021boosting,calotoiu2022lifting,ben2023bridging}.
-
-There are myriad IRs in use, like MLIR, which are predominantly control-flow oriented, facilitating optimizations pivoting around control elements like loop restructuring \cite{moses2021polygeist}. However, in the context of data locality, data-centric IRs such as SDFG (\cite{ben2019statefulSDFG}), PROGRAPH (\cite{matwin1985prograph}), and LabVIEW (\cite{kodosky2020labview}) provide a more direct approach. By prioritizing memory, its movements, and its computation-induced alterations, these IRs allow for both automated (\cite{ben2019statefulSDFG}) and, when paired with visual aids, manual enhancements of data locality \cite{ben2023bridging,ben2019statefulSDFG,schaad2021boosting}.
-
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{pictures/SDFG.png}
   \caption{C language source code and its corresponding SDFG representation \cite{calotoiu2022lifting}.}
   \label{fig:sdfg}
 \end{figure}
+
+\begin{figure*}
+	\begin{subfigure}[c]{.30\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/boosting_master_both.png}
+	\end{subfigure}
+	\begin{subfigure}[c]{.68\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/hpctoolkitviewer.png}
+	\end{subfigure}
+	\caption{Left: Coloring in memory volume onto memlets and arithmetic intensity onto tasklets in an SDFG \cite{schaad2021boosting}. Right: HPCToolkit's viewer, which displays the program's source code and its corresponding memory access information \cite{adhianto2010hpctoolkit}.}
+	\label{fig:coarse}
+\end{figure*}
+
+Unlike dynamic analysis, static analysis takes a different tack in examining a program's data locality. Instead of operating the program in real-time to gather data, static analysis scrutinizes the program's source code itself. By transforming the source code into an intermediate representation (IR) that centers on data, and subsequently analyzing this IR, static analysis is able to uncover memory-related issues \cite{schaad2022boosting,schaad2021boosting,calotoiu2022lifting,ben2023bridging}.
+
+There are myriad IRs in use, like MLIR, which are predominantly control-flow oriented, facilitating optimizations pivoting around control elements like loop restructuring \cite{moses2021polygeist}. However, in the context of data locality, data-centric IRs such as SDFG (\cite{ben2019statefulSDFG}), PROGRAPH (\cite{matwin1985prograph}), and LabVIEW (\cite{kodosky2020labview}) provide a more direct approach. By prioritizing memory, its movements, and its computation-induced alterations, these IRs allow for both automated (\cite{ben2019statefulSDFG}) and, when paired with visual aids, manual enhancements of data locality \cite{ben2023bridging,ben2019statefulSDFG,schaad2021boosting}.
 
 Taking the example of SDFGs, the entire data flow of a program can be represented as a directed graph. Nodes within this graph symbolize $N$-dimensional arrays of data, computations (tasklets), or map scopes that denote general parallelism (such as loops). The edges, or memlets, in an SDFG represent explicit data movements \cite{ben2019statefulSDFG}. An example of the SDFG IR is provided in Figure \ref{fig:sdfg}.
 
@@ -39,6 +52,7 @@ As the SDFG IR of a program is constructed, it is possible to compute memory-rel
 Despite static analysis's robust capability for macroscopic program analysis - a trait not shared with dynamic analysis - it does not provide the same level of detail. Given that performance bottlenecks are often induced by memory accesses that are tied to physical access patterns and hence are hardware-specific, static analysis alone may not accurately predict, say, the number of cache misses for a particular function. However, the advantage of static analysis lies in the fact that it does not necessitate program execution, thereby enabling quicker and cost-effective optimization of logical data movements compared to dynamic analysis.
 
 \subsection{Cache Simulation}\label{sec:simulation}
+
 Positioned between dynamic and static analysis lies the realm of simulation-based approaches, of which cache simulation is particularly noteworthy. Cache simulation is a method used to simulate a program's data accesses on a virtual memory hierarchy model. This process allows for an in-depth examination of both spatial and temporal data locality, as elaborated on in Section \ref{sec:data_locality}.
 
 The process of setting up a cache simulator can be divided into two ways:
@@ -60,17 +74,35 @@ Despite its advantages, cache simulation demands an in-depth understanding of th
 
 \subsection{Visualization Techniques}\label{sec:visualization}
 
-\subsubsection{Coarse View}
+The visualization of data locality is a crucial component of any data locality analysis. It is the primary means of conveying the results of the analysis to the user, and as such, it must be both intuitive and informative. The visualizations of the gathered memory-related knowledge can be divided into three categories, each of which is suited to a particular level of granularity:
 
-\subsubsection{Medium View}
+\subsubsection{Coarse View}\label{sec:coarse_view}
+The most abstract view of data locality serves to provide a global comprehension of the program's performance by exposing logical data movement behavior and highlighting the performance impact of individual program parts \cite{schaad2021boosting,schaad2022boosting,gimenez2017memaxes,adhianto2010hpctoolkit}, as depicted in Figure \ref{fig:coarse}.
+A crucial feature with these visualizations is hierarchical clustering in order to zoom into specific parts of the program, for instance by focusing on a loop nest. However, while these types of visualizations enable to identify coarse bottlenecks, they do not provide any reason to what causes them. For this purpose, more detailed local visualizations are required.
 
-\subsubsection{Fine-Grained View}
+\subsubsection{Medium View}\label{sec:medium_view}
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{pictures/memaxes_cache.png}
+	\caption{Left: A radial design representing the hardware topology. Main memory resources are depicted in deep purple and processing units in dark orange, with different layers of caches in between. Right: An complex architecture is portrayed, featuring performance data tagged onto the hardware resources through a color code, and transactions among them indicated by line thickness \cite{gimenez2017memaxes}.}
+	\label{fig:memaxes_cache}
+\end{figure}
 
-\textit{Very brief overview of different visualizations (Colored Graphs, Heatmaps, etc.)}
+Visualizations with medium granularity provide the performance engineer with more detailed information compared to coarse views and, thus, are used to inspect the data locality of specific program segments such as functions or loops. A common technique is depicting the hardware topology to depict physical data movements between different levels of the memory hierarchy, as shown in Figure \ref{fig:memaxes_cache}. These visualizations yield a better understanding of the program's performance bottlenecks and can be used to identify the most promising optimization opportunities \cite{gimenez2017memaxes,choudhury2011abstract}. However, it does not provide any information about the data layout or access patterns, which is why a fine-grained view is required.
 
-\textit{From HPC Toolkit: Typical metrics such as elapsed time
-are useful for identifying program hot spots. However, tuning a program usually requires a measure
-of not where resources are consumed, but where they are consumed inefficiently. For this purpose,
-derived measures such as the difference between peak and actual performance are far more useful than
-raw data such as operation counts. HPCTOOLKIT’s hpcviewer user interface supports computation
-of user-defined derived metrics and enables users to rank and sort program scopes using such metrics.}
+\subsubsection{Fine-Grained View}\label{sec:fine_view}
+\begin{figure}
+	\centering
+	\begin{subfigure}[c]{.54\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/boosting_cache_lines.png}
+	\end{subfigure}
+	\begin{subfigure}[c]{.44\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/boosting_access_patterns.png}
+	\end{subfigure}
+	\caption{Left: Illustration of data layouts emphasizing spatial locality via cache lines. Right: Visualization of correlated accesses to elements $A$ and $B$ with respect to accesses to $C[3,x], x \in \{0,1,2\}$. \cite{schaad2022boosting}}
+	\label{fig:boosting_cache}
+\end{figure}
+
+Only fine-grained visualizations can result into explicit suggestions for optimization. These visualizations are used to inspect the data layout and access patterns of a specific program segment, such as a loop nest. Figure \ref{fig:boosting_cache} shows two examples of such visualizations. The left image depicts the data layout of a matrix, highlighting the spatial locality of the elements within a cache line. The right image shows the access patterns of a loop nest, indicating the correlation between accesses to different arrays. These visualizations are used to identify optimization opportunities, such as improving the spatial locality of a data structure by reshaping the data or reordering the loop to improve the data access patterns \cite{schaad2022boosting}. However, these visualizations are only useful for a single program segment and do not provide any information about the global data locality of the program. Therefore, a combination of the visualization techniques is required to obtain a comprehensive understanding of the program's data locality.
