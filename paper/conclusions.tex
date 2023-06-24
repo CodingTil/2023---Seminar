@@ -1,9 +1,10 @@
 \section{Conclusions}
-\textit{Conclusion}
+This paper has provided a comprehensive overview of various approaches to understanding data movements and access in computer programs, with a focus on visualizations that can provide invaluable insights to performance engineers. Dynamic and static analyses, in conjunction with cache simulations, are crucial techniques for gathering the necessary data. Visualizations, varying in granularity, play a significant role in aiding the comprehension of such data, and ultimately, in enhancing a program's data locality.
 
-\textit{Future Work:}
-\begin{itemize}
-	\item Data Gathering and Visualizations can always be improved
-	\item But we can use the gathered data to automatically optimize programs \cite{calotoiu2022lifting} → Even less work for the programmer (who might be just a domain researcher)
-	\item Deep Learning is also being experimented with to automatically optimize programs at compile time \cite{cummins2021programl}
-\end{itemize}
+The utilization of these methods has broad implications for a range of applications, extending beyond high-performance computing (HPC). Indeed, the potential of these visualizations is not limited to HPC programs but can be leveraged for any application that would benefit from optimization of data movement and access. However, their impact is particularly substantial in the realm of HPC, where understanding data movements and access patterns is not just beneficial but often necessary to optimize performance and ensure the efficient use of resources.
+
+Looking towards the future, several exciting developments could further revolutionize this field. While the methods for data gathering and visualizations can always be improved, the ultimate goal extends beyond visualization to automatic program optimization. Work has already begun on using the gathered data to create algorithms capable of automatically optimizing programs \cite{calotoiu2022lifting}, potentially reducing the workload for programmers significantly. This could be especially beneficial for domain researchers, whose primary focus might not be programming, allowing them to concentrate more on their domain-specific work.
+
+Moreover, the emergence of machine learning techniques, particularly deep learning, offers tantalizing prospects for program optimization. Early work in this area shows promise \cite{cummins2021programl}, suggesting that future compilers might employ machine learning to optimize programs automatically at compile-time.
+
+In conclusion, the tools and methods presented in this paper provide a solid foundation for understanding and visualizing data movements and accesses, a crucial aspect of optimizing program performance. With ongoing advancements in automatic program optimization and the advent of machine learning techniques, the future looks bright for further improvements in this vital aspect of programming and performance engineering.
