@@ -1,22 +1,11 @@
 \section{Memory-Related Performance Problems}\label{sec:background}
+
+\footnotetext{Data was acquired from a collection of STREAM benchmark results on \url{https://www.cs.virginia.edu/stream/}.}
+
 As modern computing systems evolve, the demand for increased computational power and memory resources has become more prevalent. This demand is driven by the increasing complexity of applications and the need to process larger amounts of data. In this section, we will explore the challenges and performance problems that result from the ever-growing requirements for memory and computational resources. We begin by discussing the processor-memory performance gap and its implications in Section \ref{sec:pmgap}, followed by a brief examination of the increasing computational and memory requirements of modern applications (Section \ref{sec:comp_mem_req}). The processor-memory performance gap and the increasing computational and memory requirements combined result in a need to tackle high data transfer costs and bottlenecks (Section \ref{sec:data_transfer}). Finally, we will define the concept of data locality in Section \ref{sec:data_locality}, which solutions consider to the aforementioned problems.
 
 \subsection{Processor-Memory Performance Gap}\label{sec:pmgap}
 It is well known, that the performance of CPUs doubles roughly every two years, a phenomenon resulting from Moore's law. Similarly, memory technology has also been progressing exponentially, however, at a slower pace \cite{efnusheva2017survey, machanick2002approaches, mckee2004reflections, mccalpin1997survey}. Since the difference between two exponential functions is also exponential, this gap will expand rapidly. This concept is known as the processor-memory performance gap. Figure \ref{fig:pmgap} illustrates this trend in improvements in computational and memory performance, measured by floating point operations and memory operations per second, respectively.
-
-\begin{figure*}
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{pictures/FLOPs_MOPs_vs_Date.png}
-	\end{subfigure}
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{pictures/machine_balance.png}
-	\end{subfigure}
-	\caption{Illustration of the expanding Processor-Memory Gap. The left graph charts the progression of FLOPs and MOPs on a logarithmic scale across various computing platforms, with the FLOPs trendline demonstrating a steeper ascent, indicative of the widening gap. The right figure depicts the development of the machine balance score for these platforms.\protect\footnotemark{}}
-	\label{fig:pmgap}
-\end{figure*}
-\footnotetext{Data was acquired from a collection of STREAM benchmark results on \url{https://www.cs.virginia.edu/stream/}.}
 
 The increasing processor-memory performance gap becomes a critical problem when considering data access times. Take the equation for the average memory access time:
 \begin{equation}\label{eq:avg_mem_time}
@@ -51,6 +40,6 @@ Data layout plays a significant role in the realization of data locality, as it 
 
 To illustrate, consider a two-dimensional array laid out in memory, where elements in the same row are stored in consecutive memory locations. If an application iterates through this array row by row, it benefits from spatial locality, as loading one element of the matrix also loads the few next elements in the row into the cache due to loading of entire cache lines (Section \ref{sec:cache_misses}), thus reducing the number of cache misses. On the contrary, if the application were to traverse the array column by column, it would not benefit from spatial locality due to the dispersed memory locations of elements in the same column, leading to a higher rate of cache misses and reduced performance.
 
-While this example demonstrates a simple scenario, the reality is often more complex, especially for larger and more intricate applications. Understanding the data access patterns of an application is key to deciding the best data layout, and this often requires an intimate knowledge of the program's structure. Moreover, optimizing data locality can be quite challenging due to the diversity of hardware architectures. The same program can exhibit different data locality characteristics on different hardware due to variations in the memory hierarchy (such as cache sizes and levels, memory bandwidth, and latency).
+While this example demonstrates a simple scenario, the reality is often more complex, especially for larger and more intricate applications. Understanding the data access patterns of an application is key to deciding the best data layout, and this often requires an intimate knowledge of the program's structure. Moreover, optimizing data locality can be quite challenging due to the diversity of hardware architectures. The same program can exhibit different data locality characteristics on different hardware due to variations in the memory hierarchy, such as differences in cache sizes and levels, memory bandwidth, and latency.
 
 This paper will provide an overview of an approach to optimize data locality with the help of visualizations.
