@@ -1,6 +1,6 @@
-default: example.pdf
+default: slides.pdf
 
-example.pdf: example.tex
+example.pdf: slides.tex
 
 %.pdf: %.tex beamer*themeitc.sty
 	pdflatex $<
