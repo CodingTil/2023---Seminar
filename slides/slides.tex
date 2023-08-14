@@ -11,7 +11,9 @@
 \usepackage[english]{babel}
 \usepackage{listings, listings-rust}
 \usepackage{tikz}
-\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations.pathreplacing, arrows}
+\usepackage{smartdiagram}
+\usesmartdiagramlibrary{additions}
 \usepackage[dvipsnames]{xcolor}
 
 \makeatletter
@@ -537,7 +539,38 @@ t_c &\ll t_m
 
 \section{Overview of the Optimization Workflow}
 \begin{frame}{Overview of the Optimization Workflow}{Visualization-Guided Optimization}
-
+\begin{center}
+\smartdiagramset{
+	font=\fontsize{20pt}{20pt}\selectfont,
+	uniform color list=blue!40 for 3 items,
+	circular distance=4cm,
+	arrow tip=to,
+	arrow line width=2pt,
+	module minimum width=5cm,
+	module minimum height=2cm,
+	text width=5cm,
+	additions={
+		additional item font=\fontsize{20pt}{20pt}\selectfont,
+		additional item bottom color=blue!40,
+		additional item border color=gray,
+		additional item shadow=drop shadow,
+		additional item offset=3cm,
+		additional item width=5cm,
+		additional item height=2cm,
+		additional item text width=5cm,
+		additional arrow line width=2pt,
+		additional arrow tip=to,
+		additional arrow color=blue!40,
+	}
+}
+\smartdiagramadd[circular diagram]{
+Program,
+Data Gathering,
+Visualization\\Recommendations
+}{right of module3/Optimized Program,left of module1/Original Program}
+\smartdiagramconnect{-to}{module3/additional-module1}
+\smartdiagramconnect{to-}{module1/additional-module2}
+\end{center}
 \end{frame}
 
 \section{Data Gathering Approaches}
