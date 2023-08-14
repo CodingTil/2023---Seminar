@@ -434,9 +434,111 @@ sum
 
 \section{Memory-Related Performance Problems}
 \subsection{Data Locality}
+
+\begin{frame}{Memory-Related Performance Problems | Data Locality}
+\begin{center}
+\begin{align}
+t_{avg} &= p \cdot t_c + (1-p) \cdot t_m \\\nonumber\\
+t_{avg}: \quad&\quad \text{average access time} \nonumber \\
+p: \quad&\quad \text{cache hit percentage} \nonumber \\
+t_c: \quad&\quad \text{cache access time} \nonumber \\
+t_m: \quad&\quad \text{memory access time} \nonumber \\\nonumber\\
+t_c &\ll t_m
+\end{align}
+\end{center}
+\end{frame}
+
+\begin{frame}{Memory-Related Performance Problems | Data Locality}
+\begin{columns}
+\begin{column}{0.48\textwidth}
+\textbf{Spacial Locality}\\
+\begin{itemize}
+\item Data that is referenced spatially close together is likely to be accessed in the near future
+\end{itemize}
+\vspace{1em}
+\begin{center}
+\begin{tikzpicture}[
+	box/.style={rectangle,draw=black,thick, minimum size=1cm},
+]
+	\draw[step=1cm,color=gray] (0,0) grid (4,1);
+	\node at (0.5,0.5) {1};
+	\node at (1.5,0.5) {2};
+	\node at (2.5,0.5) {3};
+	\node at (3.5,0.5) {4};
+	\draw[color=black,line width=4pt] (0,0) rectangle (1,1);
+
+	\draw[step=1cm,color=gray] (0,-2) grid (4,-3);
+	\node at (0.5,-2.5) {1};
+	\node at (1.5,-2.5) {2};
+	\node at (2.5,-2.5) {3};
+	\node at (3.5,-2.5) {4};
+	\draw[color=black,line width=4pt] (1,-2) rectangle (2,-3);
+
+	\draw[step=1cm,color=gray] (0,-5) grid (4,-6);
+	\node at (0.5,-5.5) {1};
+	\node at (1.5,-5.5) {2};
+	\node at (2.5,-5.5) {3};
+	\node at (3.5,-5.5) {4};
+	\draw[color=black,line width=4pt] (2,-5) rectangle (3,-6);
+
+	\draw[->,line width=1pt] (0,0) to [out=-135,in=135] (0,-2);
+	\draw[->,line width=1pt] (0,-3) to [out=-135,in=135] (0,-5);
+\end{tikzpicture}
+\end{center}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\textbf{Temporal Locality}\\
+\begin{itemize}
+\item Data that is referenced in the near past is likely to be accessed in the near future
+\end{itemize}
+\vspace{1em}
+\begin{center}
+\begin{tikzpicture}[
+	box/.style={rectangle,draw=black,thick, minimum size=1cm},
+]
+	\draw[step=1cm,color=gray] (0,0) grid (4,1);
+	\node at (0.5,0.5) {1};
+	\node at (1.5,0.5) {2};
+	\node at (2.5,0.5) {3};
+	\node at (3.5,0.5) {4};
+	\draw[color=black,line width=4pt] (0,0) rectangle (1,1);
+
+	\draw[step=1cm,color=gray] (0,-2) grid (4,-3);
+	\node at (0.5,-2.5) {1};
+	\node at (1.5,-2.5) {2};
+	\node at (2.5,-2.5) {3};
+	\node at (3.5,-2.5) {4};
+	\draw[color=black,line width=4pt] (1,-2) rectangle (2,-3);
+
+	\draw[step=1cm,color=gray] (0,-5) grid (4,-6);
+	\node at (0.5,-5.5) {1};
+	\node at (1.5,-5.5) {2};
+	\node at (2.5,-5.5) {3};
+	\node at (3.5,-5.5) {4};
+	\draw[color=black,line width=4pt] (0,-5) rectangle (1,-6);
+
+	\draw[->,line width=1pt] (0,0) to [out=-135,in=135] (0,-2);
+	\draw[->,line width=1pt] (0,-3) to [out=-135,in=135] (0,-5);
+\end{tikzpicture}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+
 \subsection{Processor-Memory Performance Gap}
 
+\begin{frame}{Memory-Related Performance Problems | Processor-Memory Performance Gap}
+\begin{center}
+\includegraphics[height=0.8\textheight]{logos/FLOPs_MOPs_vs_Date.png}
+\end{center}
+\end{frame}
+
 \section{Overview of the Optimization Workflow}
+\begin{frame}{Overview of the Optimization Workflow}{Visualization-Guided Optimization}
+
+\end{frame}
 
 \section{Data Gathering Approaches}
 

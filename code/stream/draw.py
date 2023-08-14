@@ -101,12 +101,12 @@ predicted_MOPs = 10 ** predicted_log_MOPs
 
 date_samples = pd.to_datetime(date_samples, unit='ns')
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(12,5))
 ax.plot(date_samples, predicted_FLOPs, color='b', label='FLOP/s')
 ax.plot(date_samples, predicted_MOPs, color='r', label='MOP/s', linestyle='dashed')
 
-sns.scatterplot(data=df, x='date', y='FLOP/s', color='b', ax=ax, alpha=0.5, s=20)
-sns.scatterplot(data=df, x='date', y='MOP/s', color='r', ax=ax, alpha=0.5, s=20, marker='X')
+sns.scatterplot(data=df, x='date', y='FLOP/s', color='b', ax=ax, alpha=0.4, s=10)
+sns.scatterplot(data=df, x='date', y='MOP/s', color='r', ax=ax, alpha=0.4, s=10, marker='X')
 
 ax.set_xlabel('Date')
 ax.set_ylabel('FLOP/s and MOP/s')
@@ -114,6 +114,6 @@ ax.set_yscale('log')
 
 plt.title('FLOP/s and MOP/s vs Date')
 plt.legend()
-plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.2, hspace=0.2)
+plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1, wspace=0.1, hspace=0.1)
 plt.savefig('FLOPs_MOPs_vs_Date.png', dpi=300, bbox_inches='tight', pad_inches=0.1)
 plt.show()
