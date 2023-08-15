@@ -15,6 +15,11 @@
 \usepackage{smartdiagram}
 \usesmartdiagramlibrary{additions}
 \usepackage[dvipsnames]{xcolor}
+\usepackage{fontspec}
+\setmainfont{Helvetica}
+\setsansfont{Helvetica}
+\newfontfamily\DejaSans{DejaVu Sans}
+\usepackage{fontawesome}
 
 \makeatletter
 \let\old@lstKV@SwitchCases\lstKV@SwitchCases
@@ -546,18 +551,18 @@ t_c &\ll t_m
 	circular distance=4cm,
 	arrow tip=to,
 	arrow line width=2pt,
-	module minimum width=5cm,
+	module minimum width=6cm,
 	module minimum height=2cm,
-	text width=5cm,
+	text width=6cm,
 	additions={
 		additional item font=\fontsize{20pt}{20pt}\selectfont,
 		additional item bottom color=blue!40,
 		additional item border color=gray,
 		additional item shadow=drop shadow,
 		additional item offset=3cm,
-		additional item width=5cm,
+		additional item width=6cm,
 		additional item height=2cm,
-		additional item text width=5cm,
+		additional item text width=6cm,
 		additional arrow line width=2pt,
 		additional arrow tip=to,
 		additional arrow color=blue!40,
@@ -574,6 +579,118 @@ Visualization\\Recommendations
 \end{frame}
 
 \section{Data Gathering Approaches}
+\begin{frame}{Data Gathering Approaches}{Goal: Acquire Memory-Related Data for Visualization}
+\begin{itemize}
+	\item Data Accesses
+	\begin{itemize}
+		\item Memory locations / variables
+		\item Frequencies
+	\end{itemize}
+	\item Data access patterns
+	\begin{itemize}
+		\item Nested loops
+	\end{itemize}
+	\item Cache performance
+	\begin{itemize}
+		\item Hit/miss rates
+		\item Utilization
+		\item Amount of data transfer in between different cache levels and main memory
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Data Gathering Approaches | Dynamic Analyis}{Run Program and Capture Memory-Related Information}
+\begin{itemize}
+	\item Hardware counters
+	\begin{itemize}
+		\item Counts cache hits/misses
+	\end{itemize}
+	\item Tracing / profiling
+	\item Store source code references alongside memory-related information
+\end{itemize}
+\begin{columns}
+\begin{column}{0.48\textwidth}
+{
+\setbeamertemplate{itemize item}{\color{ForestGreen} \large \faSmileO }
+\begin{itemize}
+	\item Very accurate
+	\begin{itemize}
+		\item Real program data
+		\item Actual physical hardware
+	\end{itemize}
+\end{itemize}
+}
+\end{column}
+\begin{column}{0.48\textwidth}
+{
+\setbeamertemplate{itemize item}{\color{OrangeRed} \large \faFrownO }
+\begin{itemize}
+	\item Can be very slow
+	\item Possible large overhead for very granular data
+	\item Cannot easily analyze just parts of the program
+\end{itemize}
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Data Gathering Approaches | Static Analyis}{Analyze the Programs Source Code for Data Accesses}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+	\item Extract any data access information purely from the source code
+	\item Compile the program into a Data-Flow Oriented IR
+	\item Statistics gathered by analyzing the IR
+	\begin{itemize}
+		\item Algorithmic intensity
+		\item Volume of data circulating in the program
+	\end{itemize}
+\end{itemize}
+\end{column}
+\begin{column}{0.51\textwidth}
+\centering
+\includegraphics[width=\textwidth]{logos/SDFG.png}
+\parbox{\textwidth}{\hspace*{15pt}\scriptsize Source:\thinspace{\small\itshape Alexandru Calotoiu et al. “Lifting C semantics for dataflow optimization”. In: Proceedings of the 36th ACM International Conference on Supercomputing. 2022, pp. 1-13.}}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Data Gathering Approaches | Static Analyis}{Analyze the Programs Source Code for Data Accesses}
+\begin{columns}[T]
+\begin{column}{0.43\textwidth}
+\centering
+\includegraphics[height=0.6\textheight]{logos/small.png}
+\parbox{\textwidth}{\hspace*{15pt}\scriptsize Source:\thinspace{\small\itshape Alexandru Calotoiu et al. “Lifting C semantics for dataflow optimization”. In: Proceedings of the 36th ACM International Conference on Supercomputing. 2022, pp. 1-13.}}
+\end{column}
+\begin{column}{0.53\textwidth}
+{
+\setbeamertemplate{itemize item}{\color{ForestGreen} \large \faSmileO }
+\begin{itemize}
+	\item Very fast
+	\item Provides holistic view of the program and its performance
+\end{itemize}
+}
+\vspace*{2em}
+{
+\setbeamertemplate{itemize item}{\color{OrangeRed} \large \faFrownO }
+\begin{itemize}
+	\item Very abstract analysis
+	\begin{itemize}
+		\item Memory layout of data is not considered
+		\item Hardware architecture unknown
+		\item No information about real-world cache performance
+	\end{itemize}
+\end{itemize}
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Data Gathering Approaches | Cache Simulation}{Imitate the Programs Memory Accesses on a Simulated Cache Hierarchy}
+
+\end{frame}
 
 \section{Visualization Techniques}
 
@@ -581,6 +698,10 @@ Visualization\\Recommendations
 
 \section{Conclusion}
 
-
+\begin{frame}[allowframebreaks]{References}
+\begin{itemize}
+\item[\faBook] Alexandru Calotoiu et al. “Lifting C semantics for dataflow optimization”. In: \textit{Proceedings of the 36th ACM International Conference on Supercomputing}. 2022, pp. 1-13.
+\end{itemize}
+\end{frame}
 
 \end{document}
