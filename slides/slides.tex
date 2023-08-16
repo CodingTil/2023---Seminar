@@ -543,7 +543,7 @@ t_c &\ll t_m
 \end{frame}
 
 \section{Overview of the Optimization Workflow}
-\begin{frame}{Overview of the Optimization Workflow}{Visualization-Guided Optimization}
+\begin{frame}[label=overview]{Overview of the Optimization Workflow}{Visualization-Guided Optimization}
 \begin{center}
 \smartdiagramset{
 	font=\fontsize{20pt}{20pt}\selectfont,
@@ -689,10 +689,51 @@ Visualization\\Recommendations
 
 
 \begin{frame}{Data Gathering Approaches | Cache Simulation}{Imitate the Programs Memory Accesses on a Simulated Cache Hierarchy}
-
+\begin{itemize}
+	\item Replicate actual hardware through software
+	\begin{itemize}
+		\item Cache hierarchy (size, associativity, etc.)
+		\item Cache replacement policies
+		\item Cache coherence protocols
+	\end{itemize}
+	\item Simulate the programs memory-wise on the simulated hardware
+	\begin{itemize}
+		\item Memory (de-)allocations
+		\item Data accesses
+	\end{itemize}
+\end{itemize}
+\begin{columns}
+\begin{column}{0.48\textwidth}
+{
+\setbeamertemplate{itemize item}{\color{ForestGreen} \large \faSmileO }
+\begin{itemize}
+	\item Very detailed
+	\begin{itemize}
+		\item Insights about the memory-layout of data
+		\item Enables step-by-step analysis of the caches
+	\end{itemize}
+	\item Allows to analyze only parts of the program
+\end{itemize}
+}
+\end{column}
+\begin{column}{0.48\textwidth}
+{
+\setbeamertemplate{itemize item}{\color{OrangeRed} \large \faFrownO }
+\begin{itemize}
+	\item Requires precise parameterization
+\end{itemize}
+}
+\end{column}
+\end{columns}
 \end{frame}
 
 \section{Visualization Techniques}
+
+\begin{frame}{Visualization Techniques}{Goal: Display Bottlenecks (and explain them)}
+
+\end{frame}
+
+\againframe{overview}
 
 \section{Specific Optimization Tool}
 
