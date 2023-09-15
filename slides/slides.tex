@@ -21,6 +21,11 @@
 \newfontfamily\DejaSans{DejaVu Sans}
 \usepackage{fontawesome}
 
+\tikzset{onslide/.code args={<#1>#2}{%
+  \only<#1>{\pgfkeysalso{#2}}
+}}
+\tikzset{highlight/.style={red,ultra thick}}
+
 \makeatletter
 \let\old@lstKV@SwitchCases\lstKV@SwitchCases
 \def\lstKV@SwitchCases#1#2#3{}
@@ -126,7 +131,28 @@
 \titlepage
 \end{frame}
 
-\begin{frame}[fragile]{Sum of Matrix Elements}
+
+\begin{frame}{Memory-Related Performance Problems | Processor-Memory Performance Gap}
+\begin{center}
+\includegraphics[height=0.8\textheight]{logos/FLOPs_MOPs_vs_Date.png}
+\scriptsize Data:\thinspace{\small\itshape https://www.cs.virginia.edu/stream/}
+\end{center}
+\end{frame}
+
+\begin{frame}{Memory-Related Performance Problems | Data Locality}
+\begin{center}
+\begin{align}
+t_{avg} &= p \cdot t_c + (1-p) \cdot t_m \\\nonumber\\
+t_{avg}: \quad&\quad \text{average access time} \nonumber \\
+p: \quad&\quad \text{cache hit percentage} \nonumber \\
+t_c: \quad&\quad \text{cache access time} \nonumber \\
+t_m: \quad&\quad \text{memory access time} \nonumber \\\nonumber\\
+t_c &\ll t_m
+\end{align}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Memory-Related Performance Problems | Data Locality}
 \begin{columns}[T] % align columns
 \begin{column}{.48\textwidth}
 \setcounter{lstlisting}{0}
@@ -293,11 +319,11 @@ sum
 }
 \end{frame}
 
-\begin{frame}[fragile]{Sum of Matrix Elements - Reordered Loops}
+\begin{frame}[fragile]{Memory-Related Performance Problems | Data Locality}
 \begin{columns}[T] % align columns
 \begin{column}{.48\textwidth}
 \setcounter{lstlisting}{1}
-\begin{lstlisting}[style=mycstyle, caption={Matrix Summation}, escapechar=!, linebackgroundcolor={\btLstHL<1>{3-4}}]
+\begin{lstlisting}[style=mycstyle, caption={Reordered Matrix Summation}, escapechar=!, linebackgroundcolor={\btLstHL<1>{3-4}}]
 let matrix = Matrix::random(2, 2);
 let mut sum = 0;
 for !{\color{red} row}! in !{\color{red} 0..2}! {
@@ -414,7 +440,6 @@ sum
 		}
 	}
 \end{tikzpicture}
-
 \end{column}%
 \end{columns}
 \vfill
@@ -435,25 +460,6 @@ sum
 }
 \end{frame}
 
-\begin{frame}{Outline}
-\tableofcontents
-\end{frame}
-
-\section{Memory-Related Performance Problems}
-\subsection{Data Locality}
-
-\begin{frame}{Memory-Related Performance Problems | Data Locality}
-\begin{center}
-\begin{align}
-t_{avg} &= p \cdot t_c + (1-p) \cdot t_m \\\nonumber\\
-t_{avg}: \quad&\quad \text{average access time} \nonumber \\
-p: \quad&\quad \text{cache hit percentage} \nonumber \\
-t_c: \quad&\quad \text{cache access time} \nonumber \\
-t_m: \quad&\quad \text{memory access time} \nonumber \\\nonumber\\
-t_c &\ll t_m
-\end{align}
-\end{center}
-\end{frame}
 
 \begin{frame}{Memory-Related Performance Problems | Data Locality}
 \begin{columns}
@@ -493,7 +499,6 @@ t_c &\ll t_m
 \end{tikzpicture}
 \end{center}
 \end{column}
-
 \begin{column}{0.48\textwidth}
 \textbf{Temporal Locality}\\
 \begin{itemize}
@@ -533,49 +538,24 @@ t_c &\ll t_m
 \end{columns}
 \end{frame}
 
-
-\subsection{Processor-Memory Performance Gap}
-
-\begin{frame}{Memory-Related Performance Problems | Processor-Memory Performance Gap}
-\begin{center}
-\includegraphics[height=0.8\textheight]{logos/FLOPs_MOPs_vs_Date.png}
-\scriptsize Data:\thinspace{\small\itshape https://www.cs.virginia.edu/stream/}
-\end{center}
+\begin{frame}{Outline}
+\tableofcontents
 \end{frame}
 
 \section{Overview of the Optimization Workflow}
-\begin{frame}[label=overview]{Overview of the Optimization Workflow}{Visualization-Guided Optimization}
+\begin{frame}<1-2>[label=overview]{Overview of the Optimization Workflow}{Visualization-Guided Optimization}
 \begin{center}
-\smartdiagramset{
-	font=\fontsize{20pt}{20pt}\selectfont,
-	uniform color list=blue!40 for 3 items,
-	circular distance=4cm,
-	arrow tip=to,
-	arrow line width=2pt,
-	module minimum width=6cm,
-	module minimum height=2cm,
-	text width=6cm,
-	additions={
-		additional item font=\fontsize{20pt}{20pt}\selectfont,
-		additional item bottom color=blue!40,
-		additional item border color=gray,
-		additional item shadow=drop shadow,
-		additional item offset=3cm,
-		additional item width=6cm,
-		additional item height=2cm,
-		additional item text width=6cm,
-		additional arrow line width=2pt,
-		additional arrow tip=to,
-		additional arrow color=blue!40,
-	}
-}
-\smartdiagramadd[circular diagram]{
-Program,
-Data Gathering,
-Visualization\\Recommendations
-}{right of module3/Optimized Program,left of module1/Original Program}
-\smartdiagramconnect{-to}{module3/additional-module1}
-\smartdiagramconnect{to-}{module1/additional-module2}
+\begin{tikzpicture}
+
+\node[rectangle, inner sep=0.5cm, draw, ultra thick, fill=blue!20, font=\fontsize{20pt}{20pt}\selectfont,rounded corners=0.25cm] (Program) at (0, 0) {Program};
+\node[rectangle, inner sep=0.5cm, draw, ultra thick, fill=blue!20, font=\fontsize{20pt}{20pt}\selectfont,rounded corners=0.25cm] (Memory) at (-8, -6) {Memory-Related Data};
+\node[rectangle, inner sep=0.5cm, draw, ultra thick, fill=blue!20, font=\fontsize{20pt}{20pt}\selectfont,rounded corners=0.25cm] (Visualization) at (8, -6) {Visualizations};
+
+\draw[-stealth, ultra thick, onslide={<2>{highlight}}] (Program) -- node[left,font=\fontsize{18pt}{18pt}\selectfont] {gather data} (Memory);
+\draw[-stealth, ultra thick, onslide={<3>{highlight}}] (Memory) -- node[below,font=\fontsize{18pt}{18pt}\selectfont] {process data} (Visualization);
+\draw[-stealth, ultra thick, onslide={<3>{highlight}}] (Visualization) -- node[right,font=\fontsize{18pt}{18pt}\selectfont] {optimize program} (Program);
+
+\end{tikzpicture}
 \end{center}
 \end{frame}
 
@@ -609,6 +589,7 @@ Visualization\\Recommendations
 	\item Tracing / profiling
 	\item Store source code references alongside memory-related information
 \end{itemize}
+\pause
 \begin{columns}
 \begin{column}{0.48\textwidth}
 {
@@ -651,13 +632,12 @@ Visualization\\Recommendations
 \begin{column}{0.51\textwidth}
 \centering
 \includegraphics[width=\textwidth]{logos/SDFG.png}
-\parbox{\textwidth}{\hspace*{15pt}\scriptsize Source:\thinspace{\small\itshape Alexandru Calotoiu et al. “Lifting C semantics for dataflow optimization”. In: Proceedings of the 36th ACM International Conference on Supercomputing. 2022, pp. 1-13.}}
 \end{column}
 \end{columns}
-\end{frame}
-
-
-\begin{frame}{Data Gathering Approaches | Static Analyis}{Analyze the Programs Source Code for Data Accesses}
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at (current page.north east)  {\scriptsize [1] (Alexandru Calotoiu et al.)};
+\end{tikzpicture}
+\pause
 \begin{columns}[T]
 \begin{column}{0.48\textwidth}
 {
@@ -684,7 +664,6 @@ Visualization\\Recommendations
 \end{columns}
 \end{frame}
 
-
 \begin{frame}{Data Gathering Approaches | Cache Simulation}{Imitate the Programs Memory Accesses on a Simulated Cache Hierarchy}
 \begin{itemize}
 	\item Replicate actual hardware through software
@@ -700,6 +679,7 @@ Visualization\\Recommendations
 	\end{itemize}
 \end{itemize}
 \vspace*{-0.7em}
+\pause
 \begin{columns}
 \begin{column}{0.48\textwidth}
 {
@@ -725,7 +705,7 @@ Visualization\\Recommendations
 \end{columns}
 \end{frame}
 
-\againframe{overview}
+\againframe<3>{overview}
 
 \section{Visualization Techniques}
 
@@ -742,55 +722,38 @@ Visualization\\Recommendations
 \end{frame}
 
 \begin{frame}{Visualization Techniques | High-Level}
-\begin{columns}[T]
-\begin{column}{0.76\textwidth}
 \centering
 \includegraphics[height=0.84\textheight]{logos/hpctoolkitviewer.png}
-\end{column}
-\begin{column}{0.23\textwidth}
-\scriptsize Source:\thinspace{\small\itshape Laksono Adhianto et al. “HPCToolkit: Tools for performance analysis of optimized parallel programs”. In: Concurrency and Computation: Practice and Experience 22.6 (2010), pp. 685-701.}
-\end{column}
-\end{columns}
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at (current page.north east)  {\scriptsize [2] (Laksono Adhianto et al.)};
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Visualization Techniques | High-Level}
-\begin{columns}[T]
-\begin{column}{0.76\textwidth}
 \centering
 \includegraphics[height=0.84\textheight]{logos/small.png}
-\end{column}
-\begin{column}{0.23\textwidth}
-\scriptsize Source:\thinspace{\small\itshape Philipp Schaad, Tal Ben-Nun, and Torsten Hoefler. “Boosting performance optimization with interactive data movement visualization”. In: arXiv preprint arXiv:2207.07433 (2022).}
-\end{column}
-\end{columns}
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at (current page.north east)  {\scriptsize [3] (Philipp Schaad)};
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Visualization Techniques | Intermediate-Level}
-\vspace*{-1.1cm}
-\begin{columns}[T]
-\begin{column}{0.76\textwidth}
 \centering
-\includegraphics[height=0.75\textheight]{logos/memaxes_cache.png}
-\end{column}
-\begin{column}{0.23\textwidth}
-\scriptsize Source:\thinspace{\small\itshape Alfredo Giménez et al. “Memaxes: Visualiza- tion and analytics for characterizing complex memory performance behaviors”. In: IEEE transactions on visualization and computer graphics 24.7 (2017), pp. 2180-2193.}
-\end{column}
-\end{columns}
+\includegraphics[height=0.77\textheight]{logos/memaxes_cache.png}
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at (current page.north east)  {\scriptsize [4] (Alfredo Giménez et al.)};
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Visualization Techniques | Low-Level}
-\begin{columns}[T]
-\begin{column}{0.76\textwidth}
 \centering
 \includegraphics[height=0.84\textheight]{logos/boosting_access_patterns.png}
-\end{column}
-\begin{column}{0.23\textwidth}
-\scriptsize Source:\thinspace{\small\itshape Philipp Schaad, Tal Ben-Nun, and Torsten Hoefler. “Boosting performance optimization with interactive data movement visualization”. In: arXiv preprint arXiv:2207.07433 (2022).}
-\end{column}
-\end{columns}
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at (current page.north east)  {\scriptsize [3] (Philipp Schaad et al.)};
+\end{tikzpicture}
 \end{frame}
 
-\againframe{overview}
+\againframe<1>{overview}
 
 
 \section{Specific Optimization Tool}
@@ -805,6 +768,19 @@ Visualization\\Recommendations
 \end{itemize}
 \end{column}
 \begin{column}{0.48\textwidth}
+\vspace*{-2cm}
+\centering
+\includegraphics[height=0.84\textheight]{logos/small.png}
+\end{column}
+\end{columns}
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at (current page.north east)  {\scriptsize [3] (Philipp Schaad)};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Boosting Performance Optimization with Interactive Data Movement Visualization}{Two-Tier Program Analysis}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
 {\bf{Local Level}}\\[.2cm]
 \begin{itemize}
 	\item Cache simulation
@@ -812,36 +788,23 @@ Visualization\\Recommendations
 	\item[$\rightarrow$] Understand the data movements and access patterns
 \end{itemize}
 \end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Boosting Performance Optimization with Interactive Data Movement Visualization}
-\begin{columns}[T]
-\begin{column}{0.76\textwidth}
-\centering
-\includegraphics[height=0.84\textheight]{logos/small.png}
-\end{column}
-\begin{column}{0.23\textwidth}
-\scriptsize Source:\thinspace{\small\itshape Philipp Schaad, Tal Ben-Nun, and Torsten Hoefler. “Boosting performance optimization with interactive data movement visualization”. In: arXiv preprint arXiv:2207.07433 (2022).}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Boosting Performance Optimization with Interactive Data Movement Visualization}
-\begin{columns}[T]
-\begin{column}{0.76\textwidth}
+\begin{column}{0.48\textwidth}
+\vspace*{-2cm}
 \centering
 \includegraphics[height=0.84\textheight]{logos/boosting_cache_lines.png}
 \end{column}
-\begin{column}{0.23\textwidth}
-\scriptsize Source:\thinspace{\small\itshape Philipp Schaad, Tal Ben-Nun, and Torsten Hoefler. “Boosting performance optimization with interactive data movement visualization”. In: arXiv preprint arXiv:2207.07433 (2022).}
-\end{column}
 \end{columns}
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at (current page.north east)  {\scriptsize [5] (Philipp Schaad et al.)};
+\end{tikzpicture}
 \end{frame}
 
 \section{Conclusion}
 
 \begin{frame}{Conclusion}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\vspace*{-1cm}
 \begin{itemize}
 \item Importance of data locality due to processor-memory gap
 \item Data Gathering Methods:
@@ -853,18 +816,37 @@ Visualization\\Recommendations
 \item Visualization: High-level to fine-grained insights
 \item Future goals: Automatic optimization in compilers
 \end{itemize}
-\end{frame}
+\end{column}
+\begin{column}{0.48\textwidth}
+\centering
+\begin{center}
+\scalebox{.8}{
+\begin{tikzpicture}[scale=.72]
 
-\againframe{overview}
+\node[rectangle, inner sep=0.5cm, draw, ultra thick, fill=blue!20, font=\fontsize{20pt}{20pt}\selectfont,rounded corners=0.25cm] (Program) at (0, 0) {Program};
+\node[rectangle, inner sep=0.5cm, draw, ultra thick, fill=blue!20, font=\fontsize{20pt}{20pt}\selectfont,rounded corners=0.25cm] (Memory) at (-8, -6) {Memory-Related Data};
+\node[rectangle, inner sep=0.5cm, draw, ultra thick, fill=blue!20, font=\fontsize{20pt}{20pt}\selectfont,rounded corners=0.25cm] (Visualization) at (8, -6) {Visualizations};
+
+\draw[-stealth, ultra thick] (Program) -- node[left,font=\fontsize{18pt}{18pt}\selectfont] {gather data} (Memory);
+\draw[-stealth, ultra thick] (Memory) -- node[below,font=\fontsize{18pt}{18pt}\selectfont] {process data} (Visualization);
+\draw[-stealth, ultra thick] (Visualization) -- node[right,font=\fontsize{18pt}{18pt}\selectfont] {optimize program} (Program);
+
+\end{tikzpicture}
+}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
 
 
 \begin{frame}[allowframebreaks]{References}
-\begin{itemize}
-\item[\faBook] Alexandru Calotoiu et al. “Lifting C semantics for dataflow optimization”. In: \textit{Proceedings of the 36th ACM International Conference on Supercomputing}. 2022, pp. 1-13.
-\item[\faBook] Laksono Adhianto et al. “HPCToolkit: Tools for performance analysis of optimized parallel programs”. In: \textit{Concurrency and Computation: Practice and Experience} 22.6 (2010), pp. 685-701.
-\item[\faBook] Alfredo Giménez et al. “Memaxes: Visualiza- tion and analytics for characterizing complex memory performance behaviors”. In: \textit{IEEE transactions on visualization and computer graphics} 24.7 (2017), pp. 2180-2193.
-\item[\faBook] Philipp Schaad, Tal Ben-Nun, and Torsten Hoefler. “Boosting performance optimization with interactive data movement visualization”. In: \textit{arXiv preprint arXiv:2207.07433} (2022).
-\end{itemize}
+\begin{enumerate}
+\item[{[1]}] Alexandru Calotoiu et al. “Lifting C semantics for dataflow optimization”. In: \textit{Proceedings of the 36th ACM International Conference on Supercomputing}. 2022, pp. 1-13.
+\item[{[2]}] Laksono Adhianto et al. “HPCToolkit: Tools for performance analysis of optimized parallel programs”. In: \textit{Concurrency and Computation: Practice and Experience} 22.6 (2010), pp. 685-701.
+\item[{[3]}] Philipp Schaad. “Boosting Performance Engi- neering with Visual Interactive Optimization and Analysis”. MA thesis. ETH Zurich, 2021.
+\item[{[4]}] Alfredo Giménez et al. “Memaxes: Visualiza- tion and analytics for characterizing complex memory performance behaviors”. In: \textit{IEEE transactions on visualization and computer graphics} 24.7 (2017), pp. 2180-2193.
+\item[{[5]}] Philipp Schaad, Tal Ben-Nun, and Torsten Hoefler. “Boosting performance optimization with interactive data movement visualization”. In: \textit{SC22: International Conference for High Performance Computing, Networking, Storage and Analysis} (2022), pp. 1-16.
+\end{enumerate}
 \end{frame}
 
 \end{document}
